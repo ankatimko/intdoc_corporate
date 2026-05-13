@@ -4,7 +4,22 @@ import { useEffect, useRef, useState } from "react";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 
-type Phase = { number: string; title: string; timeline: string; body: string };
+type Accent = "amber" | "sky" | "violet" | "emerald";
+
+type Phase = {
+  number: string;
+  title: string;
+  timeline: string;
+  body: string;
+  accent: Accent;
+};
+
+const accentClasses: Record<Accent, { border: string; text: string; line: string }> = {
+  amber:   { border: "border-amber-500",   text: "text-amber-600 dark:text-amber-400",     line: "bg-gradient-to-b from-amber-500/40 to-sky-500/40" },
+  sky:     { border: "border-sky-500",     text: "text-sky-600 dark:text-sky-400",         line: "bg-gradient-to-b from-sky-500/40 to-violet-500/40" },
+  violet:  { border: "border-violet-500",  text: "text-violet-600 dark:text-violet-400",   line: "bg-gradient-to-b from-violet-500/40 to-emerald-500/40" },
+  emerald: { border: "border-emerald-500", text: "text-emerald-600 dark:text-emerald-400", line: "bg-foreground/20" },
+};
 
 const phases: Phase[] = [
   {
@@ -12,30 +27,35 @@ const phases: Phase[] = [
     title: "Постановка задачи",
     timeline: "1–2 недели",
     body: "Выбираем категорию для пилота, фиксируем метрики.",
+    accent: "amber",
   },
   {
     number: "2",
     title: "Настройка",
     timeline: "3–4 недели",
     body: "Обучаем модель на ваших ТКП и номенклатуре, разворачиваем платформу.",
+    accent: "sky",
   },
   {
     number: "3",
     title: "Пилотная эксплуатация",
     timeline: "4–8 недель",
     body: "Параллельная работа с существующим процессом, замер метрик.",
+    accent: "violet",
   },
   {
     number: "4",
     title: "Масштабирование",
     timeline: "по результатам пилота",
     body: "Расширение на категории и интеграции.",
+    accent: "emerald",
   },
 ];
 
 function PhaseRow({ phase, index, isLast }: { phase: Phase; index: number; isLast: boolean }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const colors = accentClasses[phase.accent];
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
@@ -54,10 +74,10 @@ function PhaseRow({ phase, index, isLast }: { phase: Phase; index: number; isLas
       style={{ transitionDelay: `${index * 80}ms` }}
     >
       <div className="relative flex lg:flex-col items-center lg:items-start gap-4">
-        <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-foreground bg-background flex items-center justify-center shrink-0 z-10">
-          <span className="font-display text-lg lg:text-xl">{phase.number}</span>
+        <div className={`w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 bg-background flex items-center justify-center shrink-0 z-10 ${colors.border}`}>
+          <span className={`font-display text-lg lg:text-xl ${colors.text}`}>{phase.number}</span>
         </div>
-        {!isLast && <div className="hidden lg:block absolute left-7 top-14 bottom-0 w-px bg-foreground/20" />}
+        {!isLast && <div className={`hidden lg:block absolute left-7 top-14 bottom-0 w-px ${colors.line}`} />}
       </div>
 
       <div className="pb-12 lg:pb-16 -mt-1">

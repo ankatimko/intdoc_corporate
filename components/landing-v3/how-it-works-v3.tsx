@@ -4,39 +4,56 @@ import { useEffect, useRef, useState } from "react";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 
-type Step = { number: string; title: string; body: string };
+type Accent = "amber" | "sky" | "violet" | "emerald" | "rose";
+
+type Step = { number: string; title: string; body: string; accent: Accent };
+
+// On dark theme — use bright -400 variants so colors pop on foreground bg
+const accentClasses: Record<Accent, { border: string; number: string }> = {
+  amber:   { border: "border-amber-400/70",   number: "text-amber-300" },
+  sky:     { border: "border-sky-400/70",     number: "text-sky-300" },
+  violet:  { border: "border-violet-400/70",  number: "text-violet-300" },
+  emerald: { border: "border-emerald-400/70", number: "text-emerald-300" },
+  rose:    { border: "border-rose-400/70",    number: "text-rose-300" },
+};
 
 const steps: Step[] = [
   {
     number: "1",
     title: "Поступление ТКП",
     body: "Почта, тендерные площадки, ручная загрузка.",
+    accent: "amber",
   },
   {
     number: "2",
     title: "Извлечение данных",
     body: "Позиции, цены, валюты, сроки, условия — нейросетью.",
+    accent: "sky",
   },
   {
     number: "3",
     title: "Нормализация",
     body: "Синонимы, валюты, единицы измерения сводятся к единому виду.",
+    accent: "violet",
   },
   {
     number: "4",
     title: "Сравнительная таблица",
     body: "Ранжирование по вашим критериям, лучший вариант подсвечен.",
+    accent: "emerald",
   },
   {
     number: "5",
     title: "Выгрузка",
     body: "Excel, PDF, передача в ваши корпоративные системы.",
+    accent: "rose",
   },
 ];
 
 function StepRow({ step, index, isLast }: { step: Step; index: number; isLast: boolean }) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
+  const colors = accentClasses[step.accent];
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
@@ -55,8 +72,8 @@ function StepRow({ step, index, isLast }: { step: Step; index: number; isLast: b
       style={{ transitionDelay: `${index * 80}ms` }}
     >
       <div className="relative flex lg:flex-col items-center lg:items-start gap-4">
-        <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-background bg-foreground flex items-center justify-center shrink-0 z-10">
-          <span className="font-display text-lg lg:text-xl text-background">{step.number}</span>
+        <div className={`w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 bg-foreground flex items-center justify-center shrink-0 z-10 ${colors.border}`}>
+          <span className={`font-display text-lg lg:text-xl ${colors.number}`}>{step.number}</span>
         </div>
         {!isLast && <div className="hidden lg:block absolute left-7 top-14 bottom-0 w-px bg-background/20" />}
       </div>

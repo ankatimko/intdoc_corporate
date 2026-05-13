@@ -5,12 +5,23 @@ import { FileSearch, Repeat, Globe, FileOutput } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 
+type Accent = "amber" | "emerald" | "blue" | "violet";
+
 type Scenario = {
   number: string;
   icon: typeof FileSearch;
   title: string;
   body: string;
   callout?: string;
+  accent: Accent;
+};
+
+// Lookup with literal class strings for Tailwind JIT
+const accentClasses: Record<Accent, { iconBg: string; iconText: string }> = {
+  amber:   { iconBg: "bg-amber-500/10 border-amber-500/30",     iconText: "text-amber-600 dark:text-amber-400" },
+  emerald: { iconBg: "bg-emerald-500/10 border-emerald-500/30", iconText: "text-emerald-600 dark:text-emerald-400" },
+  blue:    { iconBg: "bg-blue-500/10 border-blue-500/30",       iconText: "text-blue-600 dark:text-blue-400" },
+  violet:  { iconBg: "bg-violet-500/10 border-violet-500/30",   iconText: "text-violet-600 dark:text-violet-400" },
 };
 
 const scenarios: Scenario[] = [
@@ -20,6 +31,7 @@ const scenarios: Scenario[] = [
     title: "Котировочные сессии и закрытые конкурсы",
     body:
       "30–50 ТКП в разных форматах сводятся в одну таблицу автоматически. Срок процедуры сокращается в 5–10 раз. В сравнение реально попадает в 3–4 раза больше поставщиков.",
+    accent: "amber",
   },
   {
     number: "02",
@@ -29,6 +41,7 @@ const scenarios: Scenario[] = [
       "Прайсы поставщиков парсятся по мере поступления. Внутренняя база цен всегда актуальна — решения принимаются на свежих данных, а не на трёхмесячной давности.",
     callout:
       "В работе: этот сценарий разворачивается у крупного промышленного заказчика. Подробности — на встрече.",
+    accent: "emerald",
   },
   {
     number: "03",
@@ -36,6 +49,7 @@ const scenarios: Scenario[] = [
     title: "Импортозамещение и азиатские поставщики",
     body:
       "ТКП из Китая, Турции, ОАЭ, Индии обрабатываются на родном языке. В сравнение попадают поставщики, которых раньше пропускали из-за языкового барьера.",
+    accent: "blue",
   },
   {
     number: "04",
@@ -43,6 +57,7 @@ const scenarios: Scenario[] = [
     title: "Формирование документов процедуры",
     body:
       "Сравнительная ведомость, протокол выбора, выгрузка для документооборота — формируются автоматически в ваших корпоративных шаблонах.",
+    accent: "violet",
   },
 ];
 
@@ -50,6 +65,7 @@ function ScenarioCard({ scenario, index }: { scenario: Scenario; index: number }
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
   const Icon = scenario.icon;
+  const colors = accentClasses[scenario.accent];
 
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
@@ -68,8 +84,8 @@ function ScenarioCard({ scenario, index }: { scenario: Scenario; index: number }
       style={{ transitionDelay: `${(index % 2) * 100}ms` }}
     >
       <div className="flex items-start gap-5 mb-6">
-        <div className="w-12 h-12 border border-foreground/20 flex items-center justify-center shrink-0">
-          <Icon className="w-5 h-5" />
+        <div className={`w-12 h-12 border flex items-center justify-center shrink-0 ${colors.iconBg}`}>
+          <Icon className={`w-5 h-5 ${colors.iconText}`} />
         </div>
         <div className="flex-1">
           <span className="font-mono text-xs text-muted-foreground block mb-2">{scenario.number}</span>

@@ -5,11 +5,21 @@ import { Cloud, Server, Network, ShieldCheck, Check } from "lucide-react";
 import { Section } from "@/components/ui/section";
 import { Eyebrow } from "@/components/ui/eyebrow";
 
+type Accent = "sky" | "violet" | "blue" | "amber";
+
 type Option = {
   icon: typeof Cloud;
   name: string;
   audience: string;
   features: string[];
+  accent: Accent;
+};
+
+const accentClasses: Record<Accent, { stripe: string; iconBg: string; iconText: string }> = {
+  sky:    { stripe: "bg-sky-500",    iconBg: "bg-sky-500/10 border-sky-500/30",       iconText: "text-sky-600 dark:text-sky-400" },
+  violet: { stripe: "bg-violet-500", iconBg: "bg-violet-500/10 border-violet-500/30", iconText: "text-violet-600 dark:text-violet-400" },
+  blue:   { stripe: "bg-blue-500",   iconBg: "bg-blue-500/10 border-blue-500/30",     iconText: "text-blue-600 dark:text-blue-400" },
+  amber:  { stripe: "bg-amber-500",  iconBg: "bg-amber-500/10 border-amber-500/30",   iconText: "text-amber-600 dark:text-amber-400" },
 };
 
 const options: Option[] = [
@@ -22,6 +32,7 @@ const options: Option[] = [
       "Размещение на инфраструктуре оператора в РФ",
       "Развёртывание — дни",
     ],
+    accent: "sky",
   },
   {
     icon: Server,
@@ -33,6 +44,7 @@ const options: Option[] = [
       "Совместимость с российскими ОС (Astra Linux, РЕД ОС)",
       "Развёртывание — 4–8 недель",
     ],
+    accent: "violet",
   },
 ];
 
@@ -63,16 +75,20 @@ export function DeploymentV3() {
 
       {/* Deployment options */}
       <div className="grid md:grid-cols-2 gap-6 lg:gap-8 mb-16 lg:mb-20">
-        {options.map((option, i) => {
+        {options.map((option) => {
           const Icon = option.icon;
+          const colors = accentClasses[option.accent];
           return (
             <div
               key={option.name}
-              className="relative p-8 lg:p-10 border border-foreground/15 h-full flex flex-col"
+              className="relative p-8 lg:p-10 border border-foreground/15 h-full flex flex-col overflow-hidden"
             >
+              {/* Top accent stripe */}
+              <div className={`absolute top-0 left-0 right-0 h-1 ${colors.stripe}`} />
+
               <div className="flex items-start gap-5 mb-6">
-                <div className="w-14 h-14 border border-foreground/20 flex items-center justify-center shrink-0">
-                  <Icon className="w-6 h-6" />
+                <div className={`w-14 h-14 border flex items-center justify-center shrink-0 ${colors.iconBg}`}>
+                  <Icon className={`w-6 h-6 ${colors.iconText}`} />
                 </div>
                 <h3 className="text-3xl lg:text-4xl font-display">{option.name}</h3>
               </div>
@@ -99,10 +115,11 @@ export function DeploymentV3() {
 
       {/* Integrations + Security */}
       <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
-        <div className="border border-foreground/10 p-8 lg:p-10">
+        <div className="relative border border-foreground/10 p-8 lg:p-10 overflow-hidden">
+          <div className={`absolute top-0 left-0 right-0 h-1 ${accentClasses.blue.stripe}`} />
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 border border-foreground/20 flex items-center justify-center shrink-0">
-              <Network className="w-5 h-5" />
+            <div className={`w-12 h-12 border flex items-center justify-center shrink-0 ${accentClasses.blue.iconBg}`}>
+              <Network className={`w-5 h-5 ${accentClasses.blue.iconText}`} />
             </div>
             <h3 className="text-xl lg:text-2xl font-display">Интеграции</h3>
           </div>
@@ -111,10 +128,11 @@ export function DeploymentV3() {
           </p>
         </div>
 
-        <div className="border border-foreground/10 p-8 lg:p-10">
+        <div className="relative border border-foreground/10 p-8 lg:p-10 overflow-hidden">
+          <div className={`absolute top-0 left-0 right-0 h-1 ${accentClasses.amber.stripe}`} />
           <div className="flex items-center gap-4 mb-6">
-            <div className="w-12 h-12 border border-foreground/20 flex items-center justify-center shrink-0">
-              <ShieldCheck className="w-5 h-5" />
+            <div className={`w-12 h-12 border flex items-center justify-center shrink-0 ${accentClasses.amber.iconBg}`}>
+              <ShieldCheck className={`w-5 h-5 ${accentClasses.amber.iconText}`} />
             </div>
             <h3 className="text-xl lg:text-2xl font-display">Безопасность</h3>
           </div>
