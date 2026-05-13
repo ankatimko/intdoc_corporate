@@ -15,10 +15,12 @@ import {
 } from "lucide-react";
 import { AnimatedSphere } from "@/components/landing/animated-sphere";
 
-const metrics = [
+type Metric = { value: string; label: string; highlight?: boolean };
+
+const metrics: Metric[] = [
   { value: "×5–10", label: "быстрее обработка процедуры" },
   { value: "3–4×", label: "больше поставщиков в сравнении" },
-  { value: "3–8%", label: "экономия на цене типового контракта" },
+  { value: "3–8%", label: "экономия на цене типового контракта", highlight: true },
 ];
 
 const cyclingWords = ["за минуты", "на одном экране", "в одной валюте", "с лучшим вариантом"];
@@ -240,8 +242,21 @@ export function HeroV3() {
           }`}
         >
           {metrics.map((m) => (
-            <div key={m.value} className="bg-background p-8 lg:p-10">
-              <div className="font-display text-5xl lg:text-6xl tracking-tight mb-3 leading-none">{m.value}</div>
+            <div
+              key={m.value}
+              className={`p-8 lg:p-10 ${
+                m.highlight
+                  ? "bg-emerald-500/[0.06] border-l-[3px] border-emerald-500"
+                  : "bg-background"
+              }`}
+            >
+              <div
+                className={`font-display text-5xl lg:text-6xl tracking-tight mb-3 leading-none ${
+                  m.highlight ? "text-emerald-700 dark:text-emerald-400" : ""
+                }`}
+              >
+                {m.value}
+              </div>
               <div className="text-sm lg:text-base text-muted-foreground leading-snug">{m.label}</div>
             </div>
           ))}

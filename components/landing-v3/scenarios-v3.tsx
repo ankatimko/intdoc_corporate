@@ -80,9 +80,9 @@ function ScenarioCard({ scenario, index }: { scenario: Scenario; index: number }
       <p className="text-base lg:text-lg text-muted-foreground leading-relaxed">{scenario.body}</p>
 
       {scenario.callout && (
-        <div className="mt-6 pt-6 border-t border-foreground/10 bg-foreground/[0.02] -mx-8 lg:-mx-10 px-8 lg:px-10 pb-1">
-          <p className="text-sm text-foreground/80 leading-relaxed">
-            <span className="font-mono text-xs uppercase tracking-widest text-foreground bg-foreground/10 px-2 py-1 rounded mr-2">
+        <div className="mt-6 -mx-8 lg:-mx-10 px-8 lg:px-10 py-5 bg-emerald-500/[0.06] border-l-[3px] border-emerald-500">
+          <p className="text-sm text-foreground/85 leading-relaxed">
+            <span className="font-mono text-xs uppercase tracking-widest text-emerald-700 dark:text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded mr-2">
               В работе
             </span>
             {scenario.callout.replace(/^В работе:\s*/, "")}
