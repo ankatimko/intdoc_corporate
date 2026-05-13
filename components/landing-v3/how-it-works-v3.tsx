@@ -55,15 +55,15 @@ function StepRow({ step, index, isLast }: { step: Step; index: number; isLast: b
       style={{ transitionDelay: `${index * 80}ms` }}
     >
       <div className="relative flex lg:flex-col items-center lg:items-start gap-4">
-        <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-foreground bg-background flex items-center justify-center shrink-0 z-10">
-          <span className="font-display text-lg lg:text-xl">{step.number}</span>
+        <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-full border-2 border-background bg-foreground flex items-center justify-center shrink-0 z-10">
+          <span className="font-display text-lg lg:text-xl text-background">{step.number}</span>
         </div>
-        {!isLast && <div className="hidden lg:block absolute left-7 top-14 bottom-0 w-px bg-foreground/20" />}
+        {!isLast && <div className="hidden lg:block absolute left-7 top-14 bottom-0 w-px bg-background/20" />}
       </div>
 
       <div className="pb-12 lg:pb-14 -mt-1">
         <h3 className="text-2xl lg:text-3xl font-display mb-3">{step.title}</h3>
-        <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl">{step.body}</p>
+        <p className="text-base lg:text-lg text-background/60 leading-relaxed max-w-2xl">{step.body}</p>
       </div>
     </div>
   );
@@ -82,9 +82,27 @@ export function HowItWorksV3() {
   }, []);
 
   return (
-    <Section id="how-it-works" ref={sectionRef} topBorder>
+    <Section id="how-it-works" ref={sectionRef} tone="onDark">
+      {/* Diagonal pattern */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none">
+        <div
+          className="absolute inset-0"
+          style={{
+            backgroundImage: `repeating-linear-gradient(
+              -45deg,
+              transparent,
+              transparent 40px,
+              currentColor 40px,
+              currentColor 41px
+            )`,
+          }}
+        />
+      </div>
+
       <div className="mb-16 lg:mb-20">
-        <Eyebrow className="mb-6">Процесс</Eyebrow>
+        <Eyebrow tone="onDark" className="mb-6">
+          Процесс
+        </Eyebrow>
         <h2
           className={`text-4xl lg:text-6xl font-display tracking-tight transition-all duration-700 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"

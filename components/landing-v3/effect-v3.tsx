@@ -49,7 +49,7 @@ function EffectCard({ row, index }: { row: Row; index: number }) {
   return (
     <div
       ref={ref}
-      className={`border border-foreground/10 p-6 lg:p-8 transition-all duration-700 ${
+      className={`border border-foreground/10 p-6 lg:p-8 overflow-hidden transition-all duration-700 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
       }`}
       style={{ transitionDelay: `${index * 80}ms` }}
@@ -64,11 +64,17 @@ function EffectCard({ row, index }: { row: Row; index: number }) {
           <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-2">Было</div>
           <p className="text-base text-foreground/75 leading-relaxed">{row.before}</p>
         </div>
-        <div className="flex items-start gap-3">
-          <ArrowRight className="w-4 h-4 mt-1.5 shrink-0" />
-          <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground mb-2">Стало</div>
-            <p className="text-base text-foreground font-medium leading-relaxed">{row.after}</p>
+
+        {/* "Стало" callout: left accent stripe + light emerald tint */}
+        <div className="-mx-6 lg:-mx-8 px-6 lg:px-8 py-5 bg-emerald-500/[0.06] border-l-[3px] border-emerald-500">
+          <div className="flex items-start gap-3">
+            <ArrowRight className="w-4 h-4 mt-1.5 shrink-0 text-emerald-700 dark:text-emerald-400" />
+            <div>
+              <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 dark:text-emerald-400 mb-2">
+                Стало
+              </div>
+              <p className="text-base text-foreground font-medium leading-relaxed">{row.after}</p>
+            </div>
           </div>
         </div>
       </div>
