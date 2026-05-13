@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" fill="none" role="img" aria-label="IntDoc AI">
+  <g stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M10 5 L5 5 L5 23 L10 23"/>
+    <path d="M18 5 L23 5 L23 23 L18 23"/>
+  </g>
+  <g fill="currentColor">
+    <circle cx="10" cy="14" r="1.6"/>
+    <circle cx="14" cy="14" r="1.6"/>
+    <circle cx="18" cy="14" r="1.6"/>
+  </g>
+</svg>
