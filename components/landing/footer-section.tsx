@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowUpRight } from "lucide-react";
-import { Logo } from "@/components/ui/logo";
+import { LogoMark } from "@/components/ui/logo";
 import { AnimatedWave } from "./animated-wave";
 
 const footerLinks = {
@@ -33,7 +33,8 @@ export function FooterSection() {
             {/* Brand Column */}
             <div>
               <a href="#" className="inline-flex items-center gap-2 mb-6 text-foreground">
-                <Logo className="h-8" />
+                <LogoMark className="h-8 w-8" />
+                <span className="text-2xl font-display">IntDoc AI</span>
               </a>
 
               <p className="text-muted-foreground leading-relaxed max-w-xs">

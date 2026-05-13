@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import { Logo } from "@/components/ui/logo";
+import { LogoMark } from "@/components/ui/logo";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
@@ -47,7 +47,8 @@ export function Navigation() {
         >
           {/* Logo */}
           <a href="#" className="flex items-center gap-2 group text-foreground">
-            <Logo className={`transition-all duration-500 ${isScrolled ? "h-5" : "h-7"}`} />
+            <LogoMark className={`transition-all duration-500 ${isScrolled ? "h-5 w-5" : "h-7 w-7"}`} />
+            <span className={`font-display tracking-tight transition-all duration-500 ${isScrolled ? "text-xl" : "text-2xl"}`}>IntDoc AI</span>
           </a>
 
           {/* Desktop Navigation */}
