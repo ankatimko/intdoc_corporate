@@ -46,6 +46,29 @@ deck-stage:not(:defined) {
      Pitched at ~4% opacity so it reads as a tone, not as a colored card. */
   --red-soft: rgba(193, 74, 74, 0.045);
 
+  /* Accent palette — keeps the deck monochrome at heart, adds calm
+     business hues for structural markers. Semantics:
+       - blue   = primary accent (eyebrows, numbers, neutral badges,
+                  arrows, connector lines)
+       - violet = secondary accent (alternating card stripes)
+       - green  = reserved for "best / winner / result / current step";
+                  do not use decoratively */
+  --blue: #2c5aa0;
+  --blue-soft: #e6edf7;
+  --blue-on-dark: #8eb1de;
+  --violet: #6a4f9a;
+  --violet-soft: #ede8f5;
+
+  /* Deep variants — replace the previously black accent blocks
+     (slide 5 окупаемость, slide 9 On-Premise, slide 10 price-block,
+     slide 12 .ns.last). Light text on these. */
+  --blue-deep: #1f3e7e;
+  --violet-deep: #4b3777;
+  /* Used only on slide 3 dark chain steps where the dark/light split
+     carries semantic meaning ("3 of 4 steps are manual"). Stays nearly
+     black with a faint blue undertone. */
+  --navy: #0f1a30;
+
   /* Type scale @ 1920×1080 */
   --type-eyebrow: 18px;
   --type-meta: 16px;
@@ -94,7 +117,7 @@ section {
   font-size: var(--type-eyebrow);
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--fg-60);
+  color: var(--blue);
   display: flex;
   align-items: center;
   gap: 16px;
@@ -104,8 +127,10 @@ section {
   display: inline-block;
   width: 40px;
   height: 1px;
-  background: var(--fg-30);
+  background: var(--blue);
+  opacity: 0.55;
 }
+.eyebrow .n { font-weight: 500; color: var(--blue); }
 
 h1.title,
 h2.title {
@@ -314,7 +339,7 @@ section.invert .eyebrow::before {
   position: relative;
 }
 .chain-step.dark {
-  background: var(--fg);
+  background: var(--navy);
   color: var(--bg);
   border-color: transparent;
 }
@@ -322,9 +347,11 @@ section.invert .eyebrow::before {
   font-family: var(--f-mono);
   font-size: 16px;
   letter-spacing: 0.1em;
-  color: var(--fg-50);
+  color: var(--blue);
+  font-weight: 500;
 }
-.chain-step.dark .num { color: rgba(247, 246, 243, 0.5); }
+.chain-step.dark .num { color: var(--blue-on-dark); }
+.chain-step.light .num { color: var(--green); }
 .chain-step .lbl {
   font-family: var(--f-serif);
   font-size: 36px;
@@ -370,7 +397,7 @@ section.invert .eyebrow::before {
   height: 28px;
   text-align: center;
   line-height: 1;
-  color: var(--fg-60);
+  color: var(--blue);
   font-size: 32px;
   font-family: var(--f-sans);
   font-weight: 500;
@@ -404,7 +431,7 @@ section.invert .eyebrow::before {
   margin-top: 40px;
   padding: 8px 0 8px 28px;
   background: transparent;
-  border-left: 3px solid var(--fg);
+  border-left: 3px solid var(--blue);
   font-size: 28px;
   line-height: 1.35;
 }
@@ -447,7 +474,7 @@ section.invert .eyebrow::before {
   justify-content: center;
   font-family: var(--f-sans);
   font-size: 80px;
-  color: var(--fg-50);
+  color: var(--blue);
   font-weight: 300;
   line-height: 1;
   padding-bottom: 28px; /* visual centering against the rows, excluding the h4 row */
@@ -469,7 +496,7 @@ section.invert .eyebrow::before {
 .ba-col.now .mark { color: var(--green); font-weight: 600; }
 
 .new-row { background: var(--green-soft); margin: 0 -12px; padding-left: 12px; padding-right: 12px; }
-.ba-col.was .new-row { background: var(--fg-05); }
+.ba-col.was .new-row { background: var(--blue-soft); }
 
 .footer-pill {
   margin-top: 44px;
@@ -525,7 +552,7 @@ section.invert .eyebrow::before {
   font-size: 16px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--fg-60);
+  color: var(--blue);
   margin-top: 64px;
   margin-bottom: 20px;
 }
@@ -538,7 +565,7 @@ section.invert .eyebrow::before {
 /* .fin uses a 2-row grid so the number sits on the same y across all
    tiles, even when the dark tile carries an extra .head eyebrow. */
 .fin {
-  background: var(--card);
+  background: var(--blue-soft);
   border: 1px solid var(--fg-10);
   padding: 24px;
   border-radius: 4px;
@@ -546,6 +573,7 @@ section.invert .eyebrow::before {
   grid-template-rows: auto 1fr;
   align-content: start;
 }
+.fin:nth-child(even) { background: var(--violet-soft); }
 .fin .v {
   font-family: var(--f-serif);
   font-size: 56px;
@@ -568,7 +596,7 @@ section.invert .eyebrow::before {
   margin-bottom: 8px;
 }
 .fin.dark {
-  background: var(--fg);
+  background: var(--blue-deep);
   color: var(--bg);
   border-color: transparent;
 }
@@ -600,7 +628,8 @@ section.invert .eyebrow::before {
   font-family: var(--f-mono);
   font-size: 18px;
   letter-spacing: 0.08em;
-  color: var(--fg-50);
+  color: var(--blue);
+  font-weight: 500;
 }
 .step-list .h {
   font-family: var(--f-serif);
@@ -939,7 +968,7 @@ section.invert .eyebrow::before {
 .takeaway {
   padding: 8px 0 8px 28px;
   background: transparent;
-  border-left: 3px solid var(--fg);
+  border-left: 3px solid var(--blue);
   font-size: 24px;
   line-height: 1.4;
 }
@@ -990,19 +1019,21 @@ section.invert .eyebrow::before {
 /* ===== Slide 9 — deployment ===== */
 .deploy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 72px; }
 .deploy-card {
-  background: var(--card);
+  background: var(--blue-soft);
   border: 1px solid var(--fg-10);
+  border-top: 3px solid var(--blue);
   border-radius: 6px;
   padding: 36px 36px 32px;
   display: flex;
   flex-direction: column;
 }
-/* Inverted variant for On-Premise — mirrors the dark/light pairing
-   used on slide 5 so the two options read as "two distinct paths". */
+/* Deep accent variant for On-Premise — replaces former black block.
+   The light/deep contrast still reads as "two distinct paths". */
 .deploy-card.dark {
-  background: var(--fg);
+  background: var(--violet-deep);
   color: var(--bg);
   border-color: transparent;
+  border-top: 3px solid var(--violet);
 }
 .deploy-card h3 {
   font-family: var(--f-serif);
@@ -1054,7 +1085,7 @@ section.invert .eyebrow::before {
   background: transparent;
   border-radius: 0;
   padding: 6px 0 6px 28px;
-  border-left: 3px solid var(--fg);
+  border-left: 3px solid var(--blue);
 }
 .risk-panel h4 {
   font-family: var(--f-mono);
@@ -1085,7 +1116,22 @@ section.invert .eyebrow::before {
   content: "—";
   position: absolute;
   left: 0;
-  color: var(--fg-30);
+  color: var(--blue);
+  font-weight: 500;
+}
+
+/* Standalone accent line that highlights the Russian-LLM positioning
+   — important for КИИ / 152-ФЗ buyers — placed right below the risk
+   panel as a stronger statement than a bullet list item. */
+.ru-stack {
+  margin-top: 28px;
+  padding: 12px 0 12px 28px;
+  border-left: 3px solid var(--blue);
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 24px;
+  line-height: 1.35;
+  color: var(--blue);
 }
 
 /* ===== Slide 10 — pilot ===== */
@@ -1097,21 +1143,28 @@ section.invert .eyebrow::before {
 }
 .ts {
   padding: 24px 24px 28px;
-  background: var(--card);
+  background: var(--blue-soft);
   border: 1px solid var(--fg-10);
+  border-top: 3px solid var(--blue);
   border-radius: 4px;
   position: relative;
   display: flex;
   flex-direction: column;
   min-width: 0;
 }
-.ts .n { font-family: var(--f-mono); font-size: 14px; color: var(--fg-50); letter-spacing: 0.1em; }
+.ts:nth-child(even) {
+  background: var(--violet-soft);
+  border-top-color: var(--violet);
+}
+.ts:nth-child(even) .n { color: var(--violet); }
+.ts:nth-child(odd) .n { color: var(--blue); }
+.ts .n { font-family: var(--f-mono); font-size: 14px; color: var(--violet); font-weight: 500; letter-spacing: 0.1em; }
 .ts .dur {
   font-family: var(--f-mono);
   font-size: 13px;
   font-weight: 500;
   color: #fff;
-  background: var(--green);
+  background: var(--blue);
   display: inline-block;
   padding: 5px 12px;
   border-radius: 3px;
@@ -1135,7 +1188,7 @@ section.invert .eyebrow::before {
 
 .price-block {
   margin-top: 32px;
-  background: var(--fg);
+  background: var(--blue-deep);
   color: var(--bg);
   border-radius: 6px;
   padding: 36px 40px;
@@ -1196,63 +1249,44 @@ section.invert .eyebrow::before {
   color: rgba(247, 246, 243, 0.7);
 }
 
-/* ===== Slide 11 — roadmap stair =====
-   Cards are all the SAME height (uniform 260px). The "stair up" effect
-   comes from a progressive margin-bottom that lifts each subsequent
-   card off the baseline. Distant steps fade with opacity to suggest
-   they're further away in time. */
-.stair {
+/* ===== Slide 11 — development options (independent menu) =====
+   Six equal-weight directions in a 3×2 grid. No sequence, no numbering,
+   no "you are here" marker — these are choosable, in any order. Cards
+   alternate soft blue / soft violet for visual rhythm. */
+.options {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 28px;
-  margin-top: 88px;
-  align-items: end;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 1fr;
+  gap: 24px;
+  margin-top: 72px;
+  flex: 1;
+  min-height: 0;
 }
-.step {
-  position: relative;
-  border: 1px solid var(--fg-10);
+.option {
+  padding: 32px 32px 36px;
   border-radius: 4px;
-  padding: 28px 28px 32px;
-  background: var(--card);
-  min-height: 260px;
+  border: 1px solid var(--fg-10);
+  border-top: 3px solid var(--blue);
+  background: var(--blue-soft);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
 }
-.step.s1 {
-  background: var(--green-soft);
-  border-color: var(--green);
+.option:nth-child(even) {
+  background: var(--violet-soft);
+  border-top-color: var(--violet);
 }
-.step.s2 { margin-bottom: 36px; opacity: 0.92; }
-.step.s3 { margin-bottom: 72px; opacity: 0.78; }
-.step.s4 { margin-bottom: 108px; opacity: 0.6; }
-
-/* Thin connector arrow on the right edge of each card (except last),
-   sitting in the gutter — turns the row into a visible "route". */
-.step::after {
-  content: "→";
-  position: absolute;
-  right: -22px;
-  top: 38px;
-  font-family: var(--f-sans);
-  font-size: 24px;
-  color: var(--fg-50);
-  z-index: 2;
+.option .h {
+  font-family: var(--f-serif);
+  font-size: 30px;
+  line-height: 1.1;
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
 }
-.step.s4::after { display: none; }
-
-.step .n { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--fg-50); }
-.step.s1 .n { color: var(--green); }
-.step .h { font-family: var(--f-serif); font-size: 36px; line-height: 1.05; margin-top: 14px; }
-.step .d { font-size: 19px; color: var(--fg-60); margin-top: 14px; line-height: 1.45; }
-.step .now {
-  display: inline-block;
-  margin-top: 16px;
-  font-family: var(--f-mono);
-  font-size: 12px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  background: var(--green);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 3px;
+.option .d {
+  font-size: 19px;
+  line-height: 1.45;
+  color: var(--fg-70);
 }
 
 /* ===== Slide 12 — next steps ===== */
@@ -1264,16 +1298,28 @@ section.invert .eyebrow::before {
 }
 .ns {
   padding: 24px 22px;
-  background: var(--card);
+  background: var(--blue-soft);
   border: 1px solid var(--fg-10);
+  border-top: 3px solid var(--blue);
   border-radius: 4px;
   min-height: 240px;
   display: flex;
   flex-direction: column;
 }
-.ns.last { background: var(--fg); color: var(--bg); border-color: transparent; }
-.ns .n { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--fg-50); }
-.ns.last .n { color: rgba(247, 246, 243, 0.5); }
+.ns:nth-child(even) {
+  background: var(--violet-soft);
+  border-top-color: var(--violet);
+}
+.ns.last {
+  background: var(--blue-deep);
+  color: var(--bg);
+  border-color: transparent;
+  /* The final step IS the result — keep the green stripe to signal that */
+  border-top: 3px solid var(--green);
+}
+.ns .n { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--blue); font-weight: 500; }
+.ns:nth-child(even) .n { color: var(--violet); }
+.ns.last .n { color: var(--green); }
 .ns .h { font-family: var(--f-serif); font-size: 26px; line-height: 1.1; margin-top: 14px; flex: 1; }
 .ns .who {
   font-family: var(--f-mono);

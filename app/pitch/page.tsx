@@ -309,6 +309,7 @@ const DECK_HTML = `
   <section data-label="07 Коммерческие условия">
     <div class="eyebrow"><span class="n">05</span><span>· Коммерческие условия</span></div>
     <h2 class="title smaller">Дешёвая цена в КП <span class="neq">≠</span> выгодная закупка</h2>
+    <p class="title-sub">IntDoc считает итоговую цену с учётом отсрочки, логистики, валютных рисков и хеджирования — особенно для иностранных поставщиков</p>
 
     <div class="s7">
       <!-- Left: table + takeaway -->
@@ -368,9 +369,9 @@ const DECK_HTML = `
           <div class="pane">
             <h6>Коэффициенты расчёта</h6>
             <div class="coefs">
-              <div class="coef"><span class="k">Доставка</span><span class="v">7.5%</span></div>
+              <div class="coef"><span class="k">Логистика и доставка</span><span class="v">7.5%</span></div>
               <div class="coef"><span class="k">Таможенное оформление</span><span class="v">3.0%</span></div>
-              <div class="coef"><span class="k">Оборот средств</span><span class="v">18% годовых</span></div>
+              <div class="coef"><span class="k">Хеджирование валютного риска</span><span class="v">учитывается</span></div>
               <div class="coef"><span class="k">Доля аванса</span><span class="v">30%</span></div>
               <div class="coef"><span class="k">Отсрочка платежа</span><span class="v">учитывается</span></div>
               <div class="coef"><span class="k">Ставка кредита</span><span class="v">22% годовых</span></div>
@@ -493,9 +494,11 @@ const DECK_HTML = `
         <li>Данные не используются для обучения моделей</li>
         <li>Доступ — по ролевой модели, журналируется каждое действие</li>
         <li>Финальное решение по выбору поставщика — всегда за закупщиком</li>
-        <li>AI-стек модульный — не привязан к одному вендору модели</li>
+        <li>AI-стек модульный — поддержка российских LLM (YandexGPT, GigaChat)</li>
       </ul>
     </div>
+
+    <div class="ru-stack">Российский AI-стек — данные и модели внутри РФ.</div>
 
     <div class="meta-corner"><span>IntDoc AI</span><span>09 / 12</span></div>
   </section>
@@ -509,36 +512,36 @@ const DECK_HTML = `
     <div class="timeline">
       <div class="ts">
         <div class="n">Этап 01</div>
-        <div class="dur">1–2 недели</div>
+        <div class="dur">1–3 дня</div>
         <div class="h">Постановка задачи</div>
-        <div class="d">Выбираем категорию, фиксируем базовые показатели.</div>
+        <div class="d">Анализируем текущий процесс, фиксируем базовые показатели.</div>
       </div>
       <div class="ts">
         <div class="n">Этап 02</div>
         <div class="dur">3–4 недели</div>
         <div class="h">Настройка</div>
-        <div class="d">Обучаем на ваших ТКП и номенклатуре.</div>
+        <div class="d">Обучаем модель на ваших ТКП, настраиваем правила нормализации и шаблоны выгрузки.</div>
       </div>
       <div class="ts">
         <div class="n">Этап 03</div>
         <div class="dur">4–8 недель</div>
-        <div class="h">Пилотная эксплуатация</div>
-        <div class="d">Параллельная работа, замер метрик по факту.</div>
+        <div class="h">Подтверждение результата</div>
+        <div class="d">Подтверждение соответствия заявленным показателям, обучение команды, доработка до требований.</div>
       </div>
       <div class="ts">
         <div class="n">Этап 04</div>
         <div class="dur">по итогам</div>
         <div class="h">Масштабирование</div>
-        <div class="d">Расширение на категории и интеграции.</div>
+        <div class="d">Интеграции, добавление ролей и отделов.</div>
       </div>
     </div>
 
     <div class="price-block">
       <div>
         <div>
-          <div class="eyebrow-mini">Стоимость пилота</div>
-          <div class="big">от 400 000 ₽</div>
-          <div class="sub">Вилка зависит от объёма номенклатуры и числа пользователей. Фиксируется в договоре, без скрытых платежей. Формат — SaaS, оплата за пользователя.</div>
+          <div class="eyebrow-mini">Формат пилота</div>
+          <div class="big">Фиксированная стоимость</div>
+          <div class="sub">Стоимость фиксируется в договоре после согласования объёма. Формат — SaaS, оплата за пользователя.</div>
         </div>
         <div class="quote-pill">«Эффект лучше всего виден на ваших данных — не на чужих кейсах и не на демо.»</div>
       </div>
@@ -556,37 +559,37 @@ const DECK_HTML = `
     <div class="meta-corner"><span>IntDoc AI</span><span>10 / 12</span></div>
   </section>
 
-  <!-- ============ SLIDE 11 — ROADMAP STAIR ============ -->
-  <section data-label="11 Маршрут внедрения">
-    <div class="eyebrow"><span class="n">07</span><span>· Маршрут внедрения</span></div>
-    <h2 class="title smaller">Пилот — это вход, а не разовый проект</h2>
+  <!-- ============ SLIDE 11 — DEVELOPMENT OPTIONS (menu) ============ -->
+  <section data-label="11 Направления развития">
+    <div class="eyebrow"><span class="n">07</span><span>· Направления развития</span></div>
+    <h2 class="title smaller">Куда расширять платформу после пилота</h2>
+    <p class="title-sub">Независимые направления — выбираете нужные по приоритету и в любом порядке</p>
 
-    <div class="stair">
-      <div class="step s1">
-        <div class="n">01</div>
-        <div class="h">Пилот</div>
-        <div class="d">Одна категория закупок, замер эффекта.</div>
-        <span class="now">Вы здесь</span>
+    <div class="options">
+      <div class="option">
+        <div class="h">Интеграция с ERP / 1С</div>
+        <div class="d">Получение данных напрямую из системы, выгрузка и обновление данных в системе. Поиск по данным во внешней системе, нормализация.</div>
       </div>
-      <div class="step s2">
-        <div class="n">02</div>
-        <div class="h">Развёртывание</div>
-        <div class="d">Все закупщики, все категории.</div>
+      <div class="option">
+        <div class="h">Обогащение базы</div>
+        <div class="d">Обогащение базы из других источников: файлов, КП, баз данных, тендерных площадок.</div>
       </div>
-      <div class="step s3">
-        <div class="n">03</div>
-        <div class="h">Интеграция</div>
-        <div class="d">Связка с учётной системой, выгрузка заказов напрямую.</div>
-      </div>
-      <div class="step s4">
-        <div class="n">04</div>
+      <div class="option">
         <div class="h">Аналитика закупок</div>
         <div class="d">Дашборд: экономия, средняя цена, охват поставщиков, динамика.</div>
       </div>
-    </div>
-
-    <div class="footer-pill" style="margin-top:40px">
-      <span>Каждый шаг — отдельное решение по итогам предыдущего. Вы не покупаете всё сразу.</span>
+      <div class="option">
+        <div class="h">База поставщиков</div>
+        <div class="d">Единая база с историей цен, надёжности и репутации — основа для категорийного менеджмента.</div>
+      </div>
+      <div class="option">
+        <div class="h">Автоматизация тендеров</div>
+        <div class="d">Подготовка тендерной документации, обмен с площадками, формирование протоколов выбора.</div>
+      </div>
+      <div class="option">
+        <div class="h">Интеграция с почтой</div>
+        <div class="d">Автоматическое получение ТКП с почты, мессенджеров, внутренних систем.</div>
+      </div>
     </div>
 
     <div class="meta-corner"><span>IntDoc AI</span><span>11 / 12</span></div>
@@ -610,7 +613,7 @@ const DECK_HTML = `
       </div>
       <div class="ns">
         <div class="n">03</div>
-        <div class="h">Kick-off и старт работ</div>
+        <div class="h">Установочная встреча и старт работ</div>
         <div class="who">Совместно</div>
       </div>
       <div class="ns">
@@ -627,8 +630,7 @@ const DECK_HTML = `
 
     <div class="contact-block">
       <div class="brand">
-        <div class="label">IntDoc AI</div>
-        <div class="val">Интеграмма</div>
+        <div class="val">IntDoc AI</div>
       </div>
       <div>
         <div class="label">Менеджер</div>
