@@ -37,23 +37,23 @@ const DECK_HTML = `
   <!-- ============ SLIDE 2 — PROBLEM ============ -->
   <section data-label="02 Проблема">
     <div class="eyebrow"><span class="n">01</span><span>· Проблема</span></div>
-    <h2 class="title">Это проблема инструмента,<br />а не людей.</h2>
+    <h2 class="title">Как выглядит работа с ТКП сейчас</h2>
 
     <div class="bignums">
       <div class="bignum">
-        <div class="v">60–80<span style="font-size:96px;color:var(--fg-50)">%</span></div>
-        <div class="l">Рабочего времени</div>
-        <div class="d">Уходит у закупщика на ручную сводку ТКП в Excel — каждую процедуру.</div>
+        <div class="pain"><span class="n">60–80%</span> рабочего времени закупщика уходит на ручную сводку ТКП</div>
+        <div class="rule"></div>
+        <div class="expl">Каждая процедура собирается в Excel вручную, с нуля.</div>
       </div>
       <div class="bignum">
-        <div class="v">5–10</div>
-        <div class="l">Поставщиков в сравнении</div>
-        <div class="d">Не потому что рынок узкий, а потому что больше не успеть свести руками.</div>
+        <div class="pain">Только <span class="n">5–10</span> поставщиков попадают в сравнение</div>
+        <div class="rule"></div>
+        <div class="expl">Не потому что рынок узкий — больше просто не успеть свести руками.</div>
       </div>
-      <div class="bignum">
-        <div class="v">3–8<span style="font-size:96px;color:var(--fg-50)">%</span></div>
-        <div class="l">Переплата на контракте</div>
-        <div class="d">Выгодные поставщики не попадают в таблицу — конкуренция ограничена.</div>
+      <div class="bignum tinted">
+        <div class="pain"><span class="n">3–8%</span> переплаты на каждом контракте</div>
+        <div class="rule"></div>
+        <div class="expl">Выгодные поставщики не попадают в таблицу, конкуренция ограничена.</div>
       </div>
     </div>
 
@@ -70,6 +70,7 @@ const DECK_HTML = `
         <div>
           <div class="num">01</div>
           <div class="lbl">Получение ТКП</div>
+          <div class="sub">приходит в любом формате</div>
         </div>
         <div class="tag">Автоматически</div>
         <div class="chain-arrow">→</div>
@@ -78,6 +79,7 @@ const DECK_HTML = `
         <div>
           <div class="num">02</div>
           <div class="lbl">Открыть каждый файл</div>
+          <div class="sub">каждый ТКП — отдельно</div>
         </div>
         <div class="tag">Вручную</div>
         <div class="chain-arrow">→</div>
@@ -86,6 +88,7 @@ const DECK_HTML = `
         <div>
           <div class="num">03</div>
           <div class="lbl">Свести в таблицу</div>
+          <div class="sub">руками, с нуля каждый раз</div>
         </div>
         <div class="tag">Вручную</div>
         <div class="chain-arrow">→</div>
@@ -94,6 +97,7 @@ const DECK_HTML = `
         <div>
           <div class="num">04</div>
           <div class="lbl">Сравнить и выбрать</div>
+          <div class="sub">на глаз, без учёта условий</div>
         </div>
         <div class="tag">Вручную</div>
       </div>
@@ -165,15 +169,14 @@ const DECK_HTML = `
       </tbody>
     </table>
 
+    <div class="fin-eyebrow">Финансовый эффект</div>
     <div class="fin-row">
       <div class="fin"><div class="v">3–8%</div><div class="l">экономия на контракте</div></div>
       <div class="fin"><div class="v">×5–10</div><div class="l">быстрее закрытие процедур</div></div>
       <div class="fin"><div class="v">×3–4</div><div class="l">больше процедур тем же штатом</div></div>
-      <div class="fin"><div class="v">30–50</div><div class="l">поставщиков в таблице</div></div>
       <div class="fin dark">
-        <div class="eyebrow-mini">Окупаемость пилота</div>
         <div class="v">2–3 мес</div>
-        <div class="l">при экономии 3–8% на контракте против стоимости пилота</div>
+        <div class="l"><span class="head">Окупаемость пилота</span>при экономии 3–8% на контракте против стоимости пилота</div>
       </div>
     </div>
 
@@ -182,8 +185,8 @@ const DECK_HTML = `
 
   <!-- ============ SLIDE 6 — HOW IT WORKS ============ -->
   <section data-label="06 Как работает платформа">
-    <div class="eyebrow"><span class="n">05</span><span>· Как работает платформа</span></div>
-    <h2 class="title smaller">От письма поставщика до готовой таблицы — 5 шагов</h2>
+    <div class="eyebrow"><span class="n">05</span><span>· Как работает платформа · 5 шагов</span></div>
+    <h2 class="title smaller">От письма поставщика — до готовой таблицы</h2>
 
     <div class="s6">
       <!-- Left: steps list -->
@@ -193,7 +196,7 @@ const DECK_HTML = `
           <span class="d">Excel, PDF, скан, email, тело письма. Ничего настраивать не нужно.</span>
         </li>
         <li class="linked">
-          <span class="n">02 →</span><span class="h">Чтение данных</span>
+          <span class="n">02</span><span class="h">Чтение данных</span>
           <span class="d">Нейросеть извлекает позиции, цены, сроки, условия — без шаблонов.</span>
         </li>
         <li>
@@ -201,7 +204,7 @@ const DECK_HTML = `
           <span class="d">Синонимы, валюты, единицы, Инкотермс — всё к единому виду.</span>
         </li>
         <li class="linked">
-          <span class="n">04 →</span><span class="h">Сравнительная таблица</span>
+          <span class="n">04</span><span class="h">Сравнительная таблица</span>
           <span class="d">Все поставщики рядом. Ранжирование по вашим критериям. Лучший выделен.</span>
         </li>
         <li>
@@ -248,49 +251,53 @@ const DECK_HTML = `
               </tbody>
             </table>
           </div>
-          <div class="screen-callout">30 позиций извлечено из PDF двух поставщиков — автоматически.</div>
+          <div class="screen-callout">Любой формат — без шаблонов для поставщика.</div>
         </div>
       </div>
 
       <!-- Right: Screen B compact (preview) -->
       <div class="screens-col">
         <div>
-          <div class="screen-frame scrB" style="font-size:13px">
+          <div class="screen-frame scrB" style="font-size:14px">
             <div class="app-tabs">
               <span class="tab active">Таблица</span>
               <span class="tab">Расчёт</span>
               <span class="tab">Шаблон для клиента</span>
               <span class="tab">История обработки</span>
             </div>
-            <div class="spec-h" style="padding:14px 18px 4px">
-              <div class="t" style="font-size:18px">Преобразователь частоты Sinamics G120C, 4 кВт</div>
+            <div class="spec-h" style="padding:18px 22px 6px">
+              <div class="t" style="font-size:20px">Преобразователь частоты Sinamics G120C, 4 кВт</div>
               <div class="art">6SL3210-1KE21-3UF1</div>
             </div>
-            <div class="offer-list" style="padding:8px 18px 16px;gap:8px">
-              <div class="offer best" style="grid-template-columns:48px 1fr 110px 92px 100px;padding:10px 12px">
+            <div class="offer-list" style="padding:10px 22px 18px;gap:10px">
+              <div class="offer best" style="grid-template-columns:52px 1fr 120px 96px 110px;padding:14px 14px">
                 <div class="pct">90%</div>
-                <div class="name">Siemens AG <span class="sub">DE · оригинал</span></div>
-                <div class="price" style="font-size:18px">€ 412.00</div>
+                <div class="name">Siemens AG <span class="sub">DE · оригинал · артикул совпадает</span></div>
+                <div class="price" style="font-size:20px">€ 412.00</div>
                 <div class="term">14 дн.</div>
                 <div class="badge">Лучший</div>
               </div>
-              <div class="offer" style="grid-template-columns:48px 1fr 110px 92px 100px;padding:10px 12px">
+              <div class="offer" style="grid-template-columns:52px 1fr 120px 96px 110px;padding:14px 14px">
                 <div class="pct">50%</div>
-                <div class="name">Технотрейд <span class="sub">RU · аналог</span></div>
-                <div class="price" style="font-size:18px">€ 365.00</div>
+                <div class="name">ООО «Технотрейд» <span class="sub">RU · аналог по характеристикам</span></div>
+                <div class="price" style="font-size:20px">€ 365.00</div>
                 <div class="term">30 дн.</div>
                 <div class="badge">Аналог</div>
               </div>
-              <div class="offer" style="grid-template-columns:48px 1fr 110px 92px 100px;padding:10px 12px">
+              <div class="offer" style="grid-template-columns:52px 1fr 120px 96px 110px;padding:14px 14px">
                 <div class="pct">40%</div>
-                <div class="name">Энергопром-Сервис <span class="sub">RU · аналог</span></div>
-                <div class="price" style="font-size:18px">€ 398.00</div>
+                <div class="name">«Энергопром-Сервис» <span class="sub">RU · близкий аналог</span></div>
+                <div class="price" style="font-size:20px">€ 398.00</div>
                 <div class="term">21 дн.</div>
                 <div class="badge">Аналог</div>
               </div>
             </div>
+            <div style="padding:14px 22px;border-top:1px solid var(--fg-10);font-family:var(--f-mono);font-size:12px;color:var(--fg-60);display:flex;justify-content:space-between;align-items:center;background:var(--fg-05);">
+              <span>Позиция 1 из 30</span>
+              <span style="color:var(--fg);font-weight:500;">Следующая →</span>
+            </div>
           </div>
-          <div class="screen-callout">AI привязал предложения к позиции и оценил соответствие.</div>
+          <div class="screen-callout">Учёт валют, сроков и условий поставки в цене.</div>
         </div>
       </div>
     </div>
@@ -301,36 +308,36 @@ const DECK_HTML = `
   <!-- ============ SLIDE 7 — COMMERCIAL CONDITIONS ============ -->
   <section data-label="07 Коммерческие условия">
     <div class="eyebrow"><span class="n">05</span><span>· Коммерческие условия</span></div>
-    <h2 class="title smaller">Дешёвая цена в КП ≠ выгодная закупка</h2>
+    <h2 class="title smaller">Дешёвая цена в КП <span class="neq">≠</span> выгодная закупка</h2>
 
     <div class="s7">
       <!-- Left: table + takeaway -->
       <div>
         <table class="comp-table">
           <thead>
-            <tr><th>Поставщик</th><th>Цена в КП</th><th>Отсрочка</th><th>Стоимость денег</th><th>Итог</th></tr>
+            <tr><th>Поставщик</th><th>Цена в КП</th><th>Отсрочка</th><th>Стоимость денег</th><th>Итоговая стоимость</th></tr>
           </thead>
           <tbody>
             <tr>
               <td class="sup">А</td>
-              <td>ниже всех</td>
-              <td>7 дней</td>
-              <td>высокая</td>
-              <td>средняя</td>
+              <td class="num">1 000 000 ₽</td>
+              <td class="num">7 дней</td>
+              <td class="num delta neg">+28 000 ₽</td>
+              <td class="num">1 028 000 ₽</td>
             </tr>
             <tr class="best">
               <td class="sup">Б</td>
-              <td>выше А</td>
-              <td>60 дней</td>
-              <td>низкая</td>
-              <td>лучшая ✓</td>
+              <td class="num">1 040 000 ₽</td>
+              <td class="num">60 дней</td>
+              <td class="num delta pos">−31 000 ₽</td>
+              <td class="num">1 009 000 ₽ ✓</td>
             </tr>
             <tr>
               <td class="sup">В</td>
-              <td>средняя</td>
-              <td>30 дней</td>
-              <td>средняя</td>
-              <td>средняя</td>
+              <td class="num">1 020 000 ₽</td>
+              <td class="num">30 дней</td>
+              <td class="num delta pos">−6 000 ₽</td>
+              <td class="num">1 014 000 ₽</td>
             </tr>
           </tbody>
         </table>
@@ -450,7 +457,8 @@ const DECK_HTML = `
   <!-- ============ SLIDE 9 — DEPLOYMENT & SECURITY ============ -->
   <section data-label="09 Развёртывание и безопасность">
     <div class="eyebrow"><span class="n">06</span><span>· Развёртывание и безопасность</span></div>
-    <h2 class="title smaller">Два варианта — под любые требования службы безопасности</h2>
+    <h2 class="title smaller">Два варианта развёртывания</h2>
+    <p class="title-sub">под любые требования службы безопасности</p>
 
     <div class="deploy-grid">
       <div class="deploy-card">
@@ -463,8 +471,9 @@ const DECK_HTML = `
           <li>Соответствие 152-ФЗ</li>
           <li>Оплата за пользователя, без затрат на серверы на старте</li>
         </ul>
+        <div class="pick">Рекомендуем для пилота</div>
       </div>
-      <div class="deploy-card">
+      <div class="deploy-card dark">
         <h3>On-Premise</h3>
         <div class="tagline">Изоляция контура, КИИ, конфиденциальные данные</div>
         <ul>
@@ -474,6 +483,7 @@ const DECK_HTML = `
           <li>Поддержка КИИ, ролевая модель</li>
           <li>Развёртывание — 4–8 недель</li>
         </ul>
+        <div class="pick">Для максимальных требований ИБ</div>
       </div>
     </div>
 
@@ -483,7 +493,7 @@ const DECK_HTML = `
         <li>Данные не используются для обучения моделей</li>
         <li>Доступ — по ролевой модели, журналируется каждое действие</li>
         <li>Финальное решение по выбору поставщика — всегда за закупщиком</li>
-        <li>AI-стек модульный: интеграция YandexGPT / GigaChat — в роадмапе</li>
+        <li>AI-стек модульный — не привязан к одному вендору модели</li>
       </ul>
     </div>
 
@@ -493,7 +503,8 @@ const DECK_HTML = `
   <!-- ============ SLIDE 10 — PILOT ============ -->
   <section data-label="10 Пилот">
     <div class="eyebrow"><span class="n">07</span><span>· Пилот</span></div>
-    <h2 class="title smaller">Одна категория закупок — фиксируем метрики до и после</h2>
+    <h2 class="title smaller">Пилот — одна категория закупок</h2>
+    <p class="title-sub">фиксируем метрики до и после</p>
 
     <div class="timeline">
       <div class="ts">
@@ -524,9 +535,12 @@ const DECK_HTML = `
 
     <div class="price-block">
       <div>
-        <div class="eyebrow-mini">Стоимость пилота</div>
-        <div class="big">от 400 000 ₽</div>
-        <div class="sub">Вилка зависит от объёма номенклатуры и числа пользователей. Фиксируется в договоре, без скрытых платежей. Формат — SaaS, оплата за пользователя.</div>
+        <div>
+          <div class="eyebrow-mini">Стоимость пилота</div>
+          <div class="big">от 400 000 ₽</div>
+          <div class="sub">Вилка зависит от объёма номенклатуры и числа пользователей. Фиксируется в договоре, без скрытых платежей. Формат — SaaS, оплата за пользователя.</div>
+        </div>
+        <div class="quote-pill">«Эффект лучше всего виден на ваших данных — не на чужих кейсах и не на демо.»</div>
       </div>
       <div>
         <div class="listhead">Что входит</div>
@@ -538,8 +552,6 @@ const DECK_HTML = `
         </ul>
       </div>
     </div>
-
-    <div class="quote-pill">«Эффект лучше всего виден на ваших данных — не на чужих кейсах и не на демо.»</div>
 
     <div class="meta-corner"><span>IntDoc AI</span><span>10 / 12</span></div>
   </section>
@@ -554,7 +566,7 @@ const DECK_HTML = `
         <div class="n">01</div>
         <div class="h">Пилот</div>
         <div class="d">Одна категория закупок, замер эффекта.</div>
-        <span class="now">Сейчас обсуждаем</span>
+        <span class="now">Вы здесь</span>
       </div>
       <div class="step s2">
         <div class="n">02</div>

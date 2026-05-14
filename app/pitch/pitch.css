@@ -1,6 +1,14 @@
 /*
  * Pitch deck — IntDoc AI · Презентация для пилота
  * Imported by app/pitch/page.tsx so styles only load on /pitch.
+ *
+ * NOTE: rules inside the deck (section, .eyebrow, .title, …) are
+ * intentionally UNSCOPED. deck-stage clones each <section> into a
+ * thumbnail shadow root and adopts the page's CSS there — and inside
+ * that shadow tree neither <deck-stage> nor a `.pitch-host` ancestor
+ * exists, so any descendant prefix would silently break thumbnails.
+ * This file only loads on /pitch (Next.js route-scoped CSS), so the
+ * unscoped class names can't leak to other routes.
  */
 
 .pitch-host {
@@ -11,7 +19,7 @@
   z-index: 0;
 }
 
-.pitch-host deck-stage:not(:defined) {
+deck-stage:not(:defined) {
   visibility: hidden;
 }
 
@@ -32,6 +40,11 @@
   --fg-50: rgba(21, 20, 15, 0.50);
   --fg-60: rgba(21, 20, 15, 0.60);
   --fg-70: rgba(21, 20, 15, 0.70);
+  --fg-80: rgba(21, 20, 15, 0.80);
+
+  /* Soft red wash — used on the "deals/contract" block (problem slide).
+     Pitched at ~4% opacity so it reads as a tone, not as a colored card. */
+  --red-soft: rgba(193, 74, 74, 0.045);
 
   /* Type scale @ 1920×1080 */
   --type-eyebrow: 18px;
@@ -58,8 +71,11 @@
   --f-mono: var(--font-jetbrains), "JetBrains Mono", ui-monospace, monospace;
 }
 
-/* ===== Slide-level layout ===== */
-.pitch-host deck-stage section {
+/* ===== Slide-level layout =====
+   `section` (unprefixed) so the rule matches both the live slide
+   and the cloned <section> inside each thumbnail's shadow DOM,
+   where neither <deck-stage> nor ancestor exists. */
+section {
   background: var(--bg);
   color: var(--fg);
   padding: var(--pad-top) var(--pad-x) var(--pad-bottom);
@@ -73,7 +89,7 @@
 }
 
 /* ===== Common atoms ===== */
-.pitch-host .eyebrow {
+.eyebrow {
   font-family: var(--f-mono);
   font-size: var(--type-eyebrow);
   letter-spacing: 0.12em;
@@ -83,7 +99,7 @@
   align-items: center;
   gap: 16px;
 }
-.pitch-host .eyebrow::before {
+.eyebrow::before {
   content: "";
   display: inline-block;
   width: 40px;
@@ -91,8 +107,8 @@
   background: var(--fg-30);
 }
 
-.pitch-host h1.title,
-.pitch-host h2.title {
+h1.title,
+h2.title {
   font-family: var(--f-serif);
   font-weight: 400;
   font-size: var(--type-h1);
@@ -101,11 +117,24 @@
   margin: 32px 0 0 0;
   max-width: 1500px;
 }
-.pitch-host h2.title.smaller {
+h2.title.smaller {
   font-size: 72px;
 }
 
-.pitch-host .meta-corner {
+/* Subtitle that sits directly under .title — italic serif at a smaller
+   scale, used when the headline has been split to keep it on one line. */
+.title-sub {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 36px;
+  line-height: 1.2;
+  color: var(--fg-60);
+  margin: 12px 0 0 0;
+  max-width: 1500px;
+  font-weight: 400;
+}
+
+.meta-corner {
   position: absolute;
   bottom: 36px;
   right: var(--pad-x);
@@ -116,13 +145,13 @@
   display: flex;
   gap: 18px;
 }
-.pitch-host .meta-corner span + span::before {
+.meta-corner span + span::before {
   content: "·";
   margin-right: 18px;
   color: var(--fg-30);
 }
 
-.pitch-host .pagenum {
+.pagenum {
   position: absolute;
   bottom: 36px;
   left: var(--pad-x);
@@ -133,25 +162,25 @@
 }
 
 /* Inverted (dark) section */
-.pitch-host section.invert {
+section.invert {
   background: var(--fg);
   color: var(--bg);
 }
-.pitch-host section.invert .eyebrow {
+section.invert .eyebrow {
   color: rgba(247, 246, 243, 0.65);
 }
-.pitch-host section.invert .eyebrow::before {
+section.invert .eyebrow::before {
   background: rgba(247, 246, 243, 0.30);
 }
 
 /* ===== Slide 1 — title ===== */
-.pitch-host .s-title-wrap {
+.s-title-wrap {
   display: flex;
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
 }
-.pitch-host .s-title-mark {
+.s-title-mark {
   font-family: var(--f-mono);
   font-size: 24px;
   letter-spacing: 0.12em;
@@ -161,14 +190,14 @@
   align-items: center;
   gap: 14px;
 }
-.pitch-host .s-title-mark .logo-dot {
+.s-title-mark .logo-dot {
   width: 14px;
   height: 14px;
   background: var(--fg);
   border-radius: 3px;
   display: inline-block;
 }
-.pitch-host .s-title-hero {
+.s-title-hero {
   font-family: var(--f-serif);
   font-size: 168px;
   line-height: 0.96;
@@ -176,11 +205,11 @@
   margin: 0;
   max-width: 1640px;
 }
-.pitch-host .s-title-hero em {
+.s-title-hero em {
   font-style: italic;
   color: var(--fg-70);
 }
-.pitch-host .s-title-sub {
+.s-title-sub {
   font-family: var(--f-serif);
   font-style: italic;
   font-size: 44px;
@@ -188,26 +217,26 @@
   margin-top: 36px;
   max-width: 1100px;
 }
-.pitch-host .s-title-metrics {
+.s-title-metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--fg-10);
   padding-top: 28px;
 }
-.pitch-host .s-title-metric {
+.s-title-metric {
   padding: 0 36px;
   border-right: 1px solid var(--fg-10);
 }
-.pitch-host .s-title-metric:first-child { padding-left: 0; }
-.pitch-host .s-title-metric:last-child { border-right: 0; padding-right: 0; }
-.pitch-host .s-title-metric .k {
+.s-title-metric:first-child { padding-left: 0; }
+.s-title-metric:last-child { border-right: 0; padding-right: 0; }
+.s-title-metric .k {
   font-family: var(--f-mono);
   font-size: 24px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--fg-60);
 }
-.pitch-host .s-title-metric .v {
+.s-title-metric .v {
   font-family: var(--f-serif);
   font-size: 56px;
   line-height: 1.05;
@@ -215,51 +244,65 @@
   letter-spacing: -0.01em;
 }
 
-/* ===== Slide 2 — problem (big numbers) ===== */
-.pitch-host .bignums {
+/* ===== Slide 2 — problem (pain phrase with inline number) =====
+   Two text tiers per block, separated by a thin foreground/10 rule:
+   .pain  — large serif headline; number wrapped in .pain .n stays
+            full-black, surrounding words at fg/80 so the digit
+            "выклёвывается" without detaching from the word.
+   .expl  — sans, muted, smaller. */
+.bignums {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0;
-  margin-top: 72px;
+  margin-top: 112px;
   flex: 1;
-  align-content: center;
+  align-items: start;
 }
-.pitch-host .bignum {
-  padding: 0 56px;
+.bignum {
+  padding: 32px 48px;
   border-right: 1px solid var(--fg-10);
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
 }
-.pitch-host .bignum:first-child { padding-left: 0; }
-.pitch-host .bignum:last-child { border-right: 0; padding-right: 0; }
-.pitch-host .bignum .v {
+.bignum:first-child { padding-left: 0; }
+.bignum:last-child { border-right: 0; padding-right: 0; }
+.bignum.tinted { background: var(--red-soft); }
+.bignum .pain {
   font-family: var(--f-serif);
-  font-size: var(--type-bignum);
-  line-height: 0.94;
-  letter-spacing: -0.035em;
+  font-size: 52px;
+  line-height: 1.05;
+  letter-spacing: -0.018em;
+  color: var(--fg-80);
+  font-weight: 400;
 }
-.pitch-host .bignum .l {
-  font-family: var(--f-mono);
-  font-size: 16px;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+.bignum .pain .n {
+  color: var(--fg);
+  white-space: nowrap;
+}
+.bignum .rule {
+  height: 1px;
+  background: var(--fg-10);
+  margin: 36px 0;
+  width: 100%;
+}
+.bignum .expl {
+  font-family: var(--f-sans);
+  font-size: 22px;
+  line-height: 1.45;
   color: var(--fg-60);
-  margin-top: 28px;
-}
-.pitch-host .bignum .d {
-  font-size: 26px;
-  color: var(--fg-70);
-  line-height: 1.4;
-  margin-top: 16px;
   max-width: 460px;
 }
 
 /* ===== Slide 3 — current process chain ===== */
-.pitch-host .chain {
+.chain {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 20px;
-  margin-top: 56px;
+  margin-top: 88px;
 }
-.pitch-host .chain-step {
+.chain-step {
   background: var(--card);
   border: 1px solid var(--fg-10);
   border-radius: 4px;
@@ -270,86 +313,125 @@
   justify-content: space-between;
   position: relative;
 }
-.pitch-host .chain-step.dark {
+.chain-step.dark {
   background: var(--fg);
   color: var(--bg);
   border-color: transparent;
 }
-.pitch-host .chain-step .num {
+.chain-step .num {
   font-family: var(--f-mono);
   font-size: 16px;
   letter-spacing: 0.1em;
   color: var(--fg-50);
 }
-.pitch-host .chain-step.dark .num { color: rgba(247, 246, 243, 0.5); }
-.pitch-host .chain-step .lbl {
+.chain-step.dark .num { color: rgba(247, 246, 243, 0.5); }
+.chain-step .lbl {
   font-family: var(--f-serif);
   font-size: 36px;
   line-height: 1.05;
   margin-top: 16px;
 }
-.pitch-host .chain-step .tag {
+.chain-step .sub {
+  font-family: var(--f-sans);
+  font-size: 18px;
+  line-height: 1.4;
+  color: var(--fg-60);
+  margin-top: 14px;
+  max-width: calc(100% - 16px);
+}
+.chain-step.dark .sub { color: rgba(247, 246, 243, 0.65); }
+.chain-step .tag {
   font-family: var(--f-mono);
   font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.10);
+  background: var(--fg-05);
+  color: var(--fg-70);
   border-radius: 100px;
   align-self: flex-start;
   margin-top: auto;
 }
-.pitch-host .chain-step.light .tag {
+/* Inverted badge on dark cards — light pill, dark text */
+.chain-step.dark .tag {
+  background: var(--bg);
+  color: var(--fg);
+}
+.chain-step.light .tag {
   background: var(--green-soft);
   color: var(--green);
 }
-.pitch-host .chain-arrow {
+.chain-arrow {
   position: absolute;
   top: 50%;
-  right: -16px;
+  right: -18px;
   transform: translateY(-50%);
-  width: 24px;
+  width: 28px;
+  height: 28px;
   text-align: center;
-  color: var(--fg-30);
-  font-size: 22px;
+  line-height: 1;
+  color: var(--fg-60);
+  font-size: 32px;
+  font-family: var(--f-sans);
+  font-weight: 500;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
 }
 
-.pitch-host .row-metrics {
+.row-metrics {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   border-top: 1px solid var(--fg-10);
   margin-top: 56px;
   padding-top: 24px;
 }
-.pitch-host .row-metrics .m {
+.row-metrics .m {
   font-family: var(--f-mono);
   font-size: 18px;
   letter-spacing: 0.06em;
   color: var(--fg-60);
   text-transform: uppercase;
 }
-.pitch-host .row-metrics .m strong {
+.row-metrics .m strong {
   color: var(--fg);
   font-weight: 500;
 }
 
-.pitch-host .verdict {
-  margin-top: 32px;
-  padding: 24px 32px;
-  background: var(--fg-05);
+.verdict {
+  margin-top: 40px;
+  padding: 8px 0 8px 28px;
+  background: transparent;
   border-left: 3px solid var(--fg);
   font-size: 28px;
+  line-height: 1.35;
 }
 
-/* ===== Slide 4 — before/after ===== */
-.pitch-host .ba {
+/* ===== Slide 4 — before/after =====
+   Outer .ba is a 3-col grid with one row for the header (h4) and
+   one row per pair. Each .ba-col is a CSS subgrid that adopts the
+   parent's rows — that's what guarantees the BEFORE row N and AFTER
+   row N sit on the same horizontal line, even when one wraps to 2
+   lines and the other doesn't. The single big → spans all rows. */
+.ba {
   display: grid;
-  grid-template-columns: 1fr 60px 1fr;
+  grid-template-columns: 1fr 96px 1fr;
+  grid-template-rows: auto repeat(6, auto);
   gap: 0;
-  margin-top: 48px;
+  margin-top: 88px;
   flex: 1;
+  align-content: start;
 }
-.pitch-host .ba-col h4 {
+.ba-col {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: 1 / -1;
+}
+.ba-col.was { grid-column: 1; }
+.ba-col.now { grid-column: 3; }
+.ba-col h4 {
   font-family: var(--f-mono);
   font-size: 16px;
   letter-spacing: 0.12em;
@@ -357,14 +439,20 @@
   color: var(--fg-50);
   margin: 0 0 28px 0;
 }
-.pitch-host .ba-arrow {
-  align-self: center;
-  text-align: center;
-  font-size: 48px;
-  color: var(--fg-30);
-  font-family: var(--f-serif);
+.ba-arrow {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--f-sans);
+  font-size: 80px;
+  color: var(--fg-50);
+  font-weight: 300;
+  line-height: 1;
+  padding-bottom: 28px; /* visual centering against the rows, excluding the h4 row */
 }
-.pitch-host .ba-row {
+.ba-row {
   display: flex;
   gap: 16px;
   align-items: flex-start;
@@ -373,48 +461,47 @@
   font-size: 26px;
   line-height: 1.35;
 }
-.pitch-host .ba-row:last-child { border-bottom: 1px solid var(--fg-10); }
-.pitch-host .ba-col.was .ba-row { color: var(--fg-50); }
-.pitch-host .ba-col.now .ba-row { color: var(--fg); }
-.pitch-host .mark { font-family: var(--f-mono); font-size: 22px; flex-shrink: 0; padding-top: 4px; }
-.pitch-host .ba-col.was .mark { color: var(--fg-30); }
-.pitch-host .ba-col.now .mark { color: var(--green); font-weight: 600; }
+.ba-row:last-child { border-bottom: 1px solid var(--fg-10); }
+.ba-col.was .ba-row { color: var(--fg-70); }
+.ba-col.now .ba-row { color: var(--fg); }
+.mark { font-family: var(--f-mono); font-size: 22px; flex-shrink: 0; padding-top: 4px; }
+.ba-col.was .mark { color: var(--fg-30); }
+.ba-col.now .mark { color: var(--green); font-weight: 600; }
 
-.pitch-host .new-row { background: var(--green-soft); margin: 0 -12px; padding-left: 12px; padding-right: 12px; }
-.pitch-host .ba-col.was .new-row { background: var(--fg-05); }
+.new-row { background: var(--green-soft); margin: 0 -12px; padding-left: 12px; padding-right: 12px; }
+.ba-col.was .new-row { background: var(--fg-05); }
 
-.pitch-host .footer-pill {
-  margin-top: 36px;
-  background: var(--fg-05);
-  padding: 22px 28px;
-  border-radius: 4px;
-  font-size: 24px;
-  color: var(--fg-70);
+.footer-pill {
+  margin-top: 44px;
+  background: transparent;
+  padding: 0;
+  font-size: 22px;
+  color: var(--fg-60);
   display: flex;
-  gap: 32px;
+  gap: 28px;
   flex-wrap: wrap;
 }
-.pitch-host .footer-pill span::before {
+.footer-pill span::before {
   content: "·";
-  margin-right: 32px;
+  margin-right: 28px;
   color: var(--fg-30);
 }
-.pitch-host .footer-pill span:first-child::before { display: none; }
+.footer-pill span:first-child::before { display: none; }
 
 /* ===== Slide 5 — numbers ===== */
-.pitch-host .num-table {
+.num-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 48px;
+  margin-top: 88px;
   font-size: 26px;
 }
-.pitch-host .num-table th,
-.pitch-host .num-table td {
+.num-table th,
+.num-table td {
   text-align: left;
   padding: 22px 24px;
   border-bottom: 1px solid var(--fg-10);
 }
-.pitch-host .num-table th {
+.num-table th {
   font-family: var(--f-mono);
   font-size: 16px;
   letter-spacing: 0.1em;
@@ -423,66 +510,84 @@
   font-weight: 400;
   border-bottom: 1px solid var(--fg-20);
 }
-.pitch-host .num-table td.label { color: var(--fg); width: 30%; }
-.pitch-host .num-table td.was { color: var(--fg-50); width: 30%; }
-.pitch-host .num-table td.now {
+.num-table td.label { color: var(--fg); width: 30%; }
+.num-table td.was { color: var(--fg-70); width: 30%; }
+.num-table td.now {
   background: var(--green-soft);
   color: var(--fg);
   font-weight: 500;
   width: 40%;
 }
-.pitch-host .fin-row {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr) 1.5fr;
-  gap: 16px;
-  margin-top: 36px;
+
+/* Small eyebrow heading above the financial-effect tiles row */
+.fin-eyebrow {
+  font-family: var(--f-mono);
+  font-size: 16px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-60);
+  margin-top: 64px;
+  margin-bottom: 20px;
 }
-.pitch-host .fin {
+
+.fin-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr) 1.5fr;
+  gap: 16px;
+}
+/* .fin uses a 2-row grid so the number sits on the same y across all
+   tiles, even when the dark tile carries an extra .head eyebrow. */
+.fin {
   background: var(--card);
   border: 1px solid var(--fg-10);
   padding: 24px;
   border-radius: 4px;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  align-content: start;
 }
-.pitch-host .fin .v {
+.fin .v {
   font-family: var(--f-serif);
   font-size: 56px;
   line-height: 1.0;
   letter-spacing: -0.015em;
 }
-.pitch-host .fin .l {
+.fin .l {
   font-family: var(--f-sans);
   font-size: 18px;
   color: var(--fg-60);
-  line-height: 1.35;
+  line-height: 1.4;
   margin-top: 12px;
 }
-.pitch-host .fin.dark {
+.fin .l .head {
+  display: block;
+  font-family: var(--f-mono);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.fin.dark {
   background: var(--fg);
   color: var(--bg);
   border-color: transparent;
 }
-.pitch-host .fin.dark .l { color: rgba(247, 246, 243, 0.65); }
-.pitch-host .fin.dark .v { font-size: 48px; }
-.pitch-host .fin.dark .eyebrow-mini {
-  font-family: var(--f-mono);
-  font-size: 14px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: rgba(247, 246, 243, 0.5);
-  margin-bottom: 14px;
-}
+.fin.dark .l { color: rgba(247, 246, 243, 0.7); }
+.fin.dark .l .head { color: rgba(247, 246, 243, 0.55); }
+.fin.dark .v { font-size: 48px; }
 
 /* ===== Slide 6 — how it works (steps + screens) ===== */
-.pitch-host .s6 {
+.s6 {
   display: grid;
   grid-template-columns: 400px 1fr 1fr;
   gap: 36px;
-  margin-top: 40px;
+  margin-top: 88px;
   flex: 1;
   min-height: 0;
+  align-items: start;
 }
-.pitch-host .step-list { list-style: none; padding: 0; margin: 0; }
-.pitch-host .step-list li {
+.step-list { list-style: none; padding: 0; margin: 0; }
+.step-list li {
   padding: 16px 0;
   border-top: 1px solid var(--fg-10);
   display: grid;
@@ -490,51 +595,57 @@
   gap: 10px;
   align-items: baseline;
 }
-.pitch-host .step-list li:first-child { border-top: none; padding-top: 0; }
-.pitch-host .step-list .n {
+.step-list li:first-child { border-top: none; padding-top: 0; }
+.step-list .n {
   font-family: var(--f-mono);
   font-size: 18px;
   letter-spacing: 0.08em;
   color: var(--fg-50);
 }
-.pitch-host .step-list .h {
+.step-list .h {
   font-family: var(--f-serif);
   font-size: 28px;
   line-height: 1.1;
+  color: var(--fg-80);
 }
-.pitch-host .step-list .d {
+.step-list .d {
   grid-column: 2;
   font-size: 18px;
   color: var(--fg-60);
   line-height: 1.4;
   margin-top: 4px;
 }
-.pitch-host .step-list li.linked .n { color: var(--green); font-weight: 500; }
+.step-list li.linked .n { color: var(--green); font-weight: 500; }
+.step-list li.linked .h { color: var(--fg); font-weight: 500; }
+.step-list li.linked .d { color: var(--fg-70); }
 
-.pitch-host .screens-col {
+.screens-col {
   display: flex;
   flex-direction: column;
   gap: 18px;
   min-height: 0;
 }
-.pitch-host .screen-frame {
+.screen-frame {
   background: var(--card);
   border: 1px solid var(--fg-10);
   border-radius: 6px;
-  box-shadow: 0 12px 32px -16px rgba(21, 20, 15, 0.20), 0 2px 6px -2px rgba(21, 20, 15, 0.06);
+  /* Softer shadow — previous spread (32px) bled past section overflow
+     and showed as a grey haze under the footer of /pitch slide 7. */
+  box-shadow: 0 8px 20px -12px rgba(21, 20, 15, 0.18),
+              0 1px 3px -1px rgba(21, 20, 15, 0.05);
   overflow: hidden;
   position: relative;
 }
-.pitch-host .screen-callout {
+.screen-callout {
   font-family: var(--f-mono);
   font-size: 16px;
   letter-spacing: 0.04em;
   color: var(--fg-60);
   padding-left: 24px;
   border-left: 1px solid var(--fg-30);
-  margin-top: 10px;
+  margin-top: 6px;
 }
-.pitch-host .callout-link {
+.callout-link {
   position: absolute;
   left: -50px;
   top: 50%;
@@ -544,7 +655,7 @@
 }
 
 /* ===== Product screen mockups ===== */
-.pitch-host .app-top {
+.app-top {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -554,46 +665,46 @@
   font-size: 13px;
   color: var(--fg-50);
 }
-.pitch-host .app-top .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--fg-10); }
-.pitch-host .app-top .crumb { color: var(--fg-70); }
-.pitch-host .app-tabs {
+.app-top .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--fg-10); }
+.app-top .crumb { color: var(--fg-70); }
+.app-tabs {
   display: flex;
   gap: 4px;
   padding: 0 18px;
   border-bottom: 1px solid var(--fg-10);
 }
-.pitch-host .app-tabs .tab {
+.app-tabs .tab {
   padding: 12px 16px;
   font-size: 14px;
   color: var(--fg-50);
   border-bottom: 2px solid transparent;
   margin-bottom: -1px;
 }
-.pitch-host .app-tabs .tab.active {
+.app-tabs .tab.active {
   color: var(--fg);
   border-bottom-color: var(--fg);
 }
 
 /* Screen A — history + spec extract */
-.pitch-host .scrA .hdr {
+.scrA .hdr {
   padding: 16px 20px;
   border-bottom: 1px solid var(--fg-10);
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.pitch-host .scrA .hdr h5 {
+.scrA .hdr h5 {
   font-family: var(--f-serif);
   font-size: 22px;
   margin: 0;
   font-weight: 400;
 }
-.pitch-host .scrA .hdr .meta {
+.scrA .hdr .meta {
   font-family: var(--f-mono);
   font-size: 12px;
   color: var(--fg-50);
 }
-.pitch-host .file-row {
+.file-row {
   display: grid;
   grid-template-columns: 28px 1fr 90px 100px;
   align-items: center;
@@ -602,7 +713,7 @@
   border-bottom: 1px solid var(--fg-08);
   font-size: 14px;
 }
-.pitch-host .file-row .ic {
+.file-row .ic {
   width: 24px;
   height: 28px;
   background: var(--fg-05);
@@ -615,9 +726,9 @@
   justify-content: center;
   color: var(--fg-50);
 }
-.pitch-host .file-row .nm { color: var(--fg); font-weight: 500; }
-.pitch-host .file-row .sup { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); }
-.pitch-host .file-row .st {
+.file-row .nm { color: var(--fg); font-weight: 500; }
+.file-row .sup { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); }
+.file-row .st {
   font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -628,19 +739,19 @@
   border-radius: 100px;
   text-align: center;
 }
-.pitch-host .file-row .dt { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); }
-.pitch-host .extract-tbl {
+.file-row .dt { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); }
+.extract-tbl {
   width: 100%;
   border-collapse: collapse;
   font-size: 13px;
 }
-.pitch-host .extract-tbl th,
-.pitch-host .extract-tbl td {
+.extract-tbl th,
+.extract-tbl td {
   text-align: left;
   padding: 8px 12px;
   border-bottom: 1px solid var(--fg-08);
 }
-.pitch-host .extract-tbl th {
+.extract-tbl th {
   font-family: var(--f-mono);
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -649,26 +760,26 @@
   background: var(--fg-05);
   font-weight: 500;
 }
-.pitch-host .extract-tbl td.art { font-family: var(--f-mono); font-size: 11px; color: var(--fg-60); }
-.pitch-host .extract-tbl td.qty { font-family: var(--f-mono); font-size: 12px; text-align: right; }
+.extract-tbl td.art { font-family: var(--f-mono); font-size: 11px; color: var(--fg-60); }
+.extract-tbl td.qty { font-family: var(--f-mono); font-size: 12px; text-align: right; }
 
 /* Screen B — spec card with 3 offers */
-.pitch-host .scrB { font-family: var(--f-sans); }
-.pitch-host .scrB .crumbs { padding: 12px 20px; font-family: var(--f-mono); font-size: 12px; color: var(--fg-50); border-bottom: 1px solid var(--fg-10); }
-.pitch-host .scrB .crumbs span { color: var(--fg); }
-.pitch-host .spec-h {
+.scrB { font-family: var(--f-sans); }
+.scrB .crumbs { padding: 12px 20px; font-family: var(--f-mono); font-size: 12px; color: var(--fg-50); border-bottom: 1px solid var(--fg-10); }
+.scrB .crumbs span { color: var(--fg); }
+.spec-h {
   padding: 20px 24px 8px;
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
 }
-.pitch-host .spec-h .t {
+.spec-h .t {
   font-family: var(--f-serif);
   font-size: 26px;
   line-height: 1.15;
   max-width: 70%;
 }
-.pitch-host .spec-h .art {
+.spec-h .art {
   font-family: var(--f-mono);
   font-size: 12px;
   color: var(--fg-50);
@@ -676,12 +787,12 @@
   padding: 6px 12px;
   border-radius: 3px;
 }
-.pitch-host .spec-actions {
+.spec-actions {
   padding: 8px 24px 16px;
   display: flex;
   gap: 10px;
 }
-.pitch-host .btn {
+.btn {
   font-family: var(--f-mono);
   font-size: 12px;
   letter-spacing: 0.05em;
@@ -693,32 +804,34 @@
   border: 0;
   cursor: pointer;
 }
-.pitch-host .btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--fg-20); }
-.pitch-host .offer-list { padding: 0 24px 24px; display: flex; flex-direction: column; gap: 12px; }
-.pitch-host .offer {
+.btn.ghost { background: transparent; color: var(--fg); border: 1px solid var(--fg-20); }
+.offer-list { padding: 0 24px 24px; display: flex; flex-direction: column; gap: 12px; }
+.offer {
   display: grid;
-  grid-template-columns: 56px 1fr 130px 110px 130px;
+  /* Tighter grid: name is 1.5fr (was 1fr) so it owns the slack —
+     no more big void between supplier and price. */
+  grid-template-columns: 56px 1.5fr 130px 100px 120px;
   align-items: center;
-  gap: 16px;
+  gap: 14px;
   padding: 16px 18px;
   border: 1px solid var(--fg-10);
   border-radius: 4px;
   background: var(--card);
 }
-.pitch-host .offer.best { border-color: var(--green); background: linear-gradient(0deg, var(--green-soft), var(--green-soft)); }
-.pitch-host .offer .pct {
+.offer.best { border-color: var(--green); background: linear-gradient(0deg, var(--green-soft), var(--green-soft)); }
+.offer .pct {
   font-family: var(--f-mono);
   font-size: 20px;
   font-weight: 500;
   color: var(--fg-50);
   text-align: center;
 }
-.pitch-host .offer.best .pct { color: var(--green); }
-.pitch-host .offer .name { font-family: var(--f-sans); font-size: 15px; }
-.pitch-host .offer .name .sub { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); display: block; margin-top: 2px; }
-.pitch-host .offer .price { font-family: var(--f-serif); font-size: 22px; text-align: right; }
-.pitch-host .offer .term { font-family: var(--f-mono); font-size: 12px; color: var(--fg-60); text-align: center; }
-.pitch-host .offer .badge {
+.offer.best .pct { color: var(--green); }
+.offer .name { font-family: var(--f-sans); font-size: 15px; }
+.offer .name .sub { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); display: block; margin-top: 2px; }
+.offer .price { font-family: var(--f-serif); font-size: 22px; text-align: right; }
+.offer .term { font-family: var(--f-mono); font-size: 12px; color: var(--fg-60); text-align: center; }
+.offer .badge {
   font-family: var(--f-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -729,14 +842,14 @@
   background: var(--fg-05);
   color: var(--fg-60);
 }
-.pitch-host .offer.best .badge { background: var(--green); color: #fff; }
+.offer.best .badge { background: var(--green); color: #fff; }
 
 /* Screen C — calculation settings */
-.pitch-host .scrC .pane {
+.scrC .pane {
   padding: 20px 24px;
   border-bottom: 1px solid var(--fg-10);
 }
-.pitch-host .scrC .pane h6 {
+.scrC .pane h6 {
   font-family: var(--f-mono);
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -745,25 +858,25 @@
   margin: 0 0 14px 0;
   font-weight: 500;
 }
-.pitch-host .rates {
+.rates {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 12px;
 }
-.pitch-host .rate {
+.rate {
   border: 1px solid var(--fg-10);
   border-radius: 4px;
   padding: 12px 14px;
 }
-.pitch-host .rate .pair { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); }
-.pitch-host .rate .val { font-family: var(--f-serif); font-size: 26px; margin-top: 4px; }
-.pitch-host .coefs {
+.rate .pair { font-family: var(--f-mono); font-size: 11px; color: var(--fg-50); }
+.rate .val { font-family: var(--f-serif); font-size: 26px; margin-top: 4px; }
+.coefs {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 32px;
   row-gap: 14px;
 }
-.pitch-host .coef {
+.coef {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -771,23 +884,37 @@
   border-bottom: 1px dashed var(--fg-10);
   font-size: 14px;
 }
-.pitch-host .coef .k { color: var(--fg-70); }
-.pitch-host .coef .v { font-family: var(--f-mono); font-size: 14px; color: var(--fg); }
+.coef .k { color: var(--fg-70); }
+.coef .v { font-family: var(--f-mono); font-size: 14px; color: var(--fg); }
 
 /* ===== Slide 7 — commercial conditions ===== */
-.pitch-host .s7 { display: grid; grid-template-columns: 1fr 720px; gap: 56px; margin-top: 48px; flex: 1; min-height: 0; }
-.pitch-host .comp-table {
+.s7 {
+  display: grid;
+  grid-template-columns: 1fr 720px;
+  gap: 56px;
+  margin-top: 88px;
+  flex: 1;
+  min-height: 0;
+  align-items: stretch;
+}
+.s7 > div {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.s7 .takeaway { margin-top: auto; }
+.comp-table {
   width: 100%;
   border-collapse: collapse;
   font-size: 22px;
 }
-.pitch-host .comp-table th,
-.pitch-host .comp-table td {
+.comp-table th,
+.comp-table td {
   text-align: left;
   padding: 18px 20px;
   border-bottom: 1px solid var(--fg-10);
 }
-.pitch-host .comp-table th {
+.comp-table th {
   font-family: var(--f-mono);
   font-size: 14px;
   letter-spacing: 0.1em;
@@ -796,26 +923,50 @@
   font-weight: 400;
   border-bottom: 1px solid var(--fg-20);
 }
-.pitch-host .comp-table tr.best td {
+.comp-table tr.best td {
   background: var(--green-soft);
 }
-.pitch-host .comp-table tr.best td:last-child {
+.comp-table tr.best td:last-child {
   font-weight: 600;
 }
-.pitch-host .comp-table td.sup { font-family: var(--f-serif); font-size: 26px; }
-.pitch-host .takeaway {
-  margin-top: 28px;
-  padding: 22px 28px;
-  background: var(--fg-05);
-  border-radius: 4px;
-  font-size: 24px;
+.comp-table td.sup { font-family: var(--f-serif); font-size: 26px; }
+.comp-table td.num {
+  font-family: var(--f-mono);
+  font-variant-numeric: tabular-nums;
 }
-.pitch-host .takeaway strong { font-weight: 500; }
+.comp-table td.delta.pos { color: var(--green); }
+.comp-table td.delta.neg { color: var(--fg-70); }
+.takeaway {
+  padding: 8px 0 8px 28px;
+  background: transparent;
+  border-left: 3px solid var(--fg);
+  font-size: 24px;
+  line-height: 1.4;
+}
+.takeaway strong { font-weight: 500; }
+
+/* Emphasized "≠" in the slide 7 headline. The Unicode glyph renders
+   small in many serif fonts, so wrap it in .neq to bump its size and
+   give it horizontal breathing room — the contrast carries the slide. */
+.title .neq {
+  font-size: 1.15em;
+  font-style: italic;
+  padding: 0 14px;
+  display: inline-block;
+}
 
 /* ===== Slide 8 — result ===== */
-.pitch-host .s8 { display: grid; grid-template-columns: 540px 1fr; gap: 64px; margin-top: 48px; flex: 1; min-height: 0; }
-.pitch-host .result-list { list-style: none; padding: 0; margin: 0; }
-.pitch-host .result-list li {
+.s8 {
+  display: grid;
+  grid-template-columns: 540px 1fr;
+  gap: 64px;
+  margin-top: 88px;
+  flex: 1;
+  min-height: 0;
+  align-items: center;
+}
+.result-list { list-style: none; padding: 0; margin: 0; align-self: center; }
+.result-list li {
   display: grid;
   grid-template-columns: 28px 1fr;
   gap: 14px;
@@ -825,65 +976,96 @@
   font-size: 24px;
   line-height: 1.4;
 }
-.pitch-host .result-list li:first-child { border-top: none; }
-.pitch-host .result-list .ck {
-  color: var(--green);
+.result-list li:first-child { border-top: none; }
+/* Checkmarks dimmed to neutral — too many green ticks read as decoration
+   rather than emphasis. Green stays reserved for the "Лучший" badge in
+   the mockup, which is where the eye should land. */
+.result-list .ck {
+  color: var(--fg-70);
   font-family: var(--f-mono);
   font-weight: 700;
   font-size: 20px;
 }
 
 /* ===== Slide 9 — deployment ===== */
-.pitch-host .deploy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 48px; }
-.pitch-host .deploy-card {
+.deploy-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 72px; }
+.deploy-card {
   background: var(--card);
   border: 1px solid var(--fg-10);
   border-radius: 6px;
   padding: 36px 36px 32px;
+  display: flex;
+  flex-direction: column;
 }
-.pitch-host .deploy-card h3 {
+/* Inverted variant for On-Premise — mirrors the dark/light pairing
+   used on slide 5 so the two options read as "two distinct paths". */
+.deploy-card.dark {
+  background: var(--fg);
+  color: var(--bg);
+  border-color: transparent;
+}
+.deploy-card h3 {
   font-family: var(--f-serif);
   font-size: 48px;
   margin: 0 0 4px 0;
   font-weight: 400;
 }
-.pitch-host .deploy-card .tagline {
-  font-family: var(--f-mono);
-  font-size: 14px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--fg-50);
-  margin-bottom: 24px;
+.deploy-card .tagline {
+  font-family: var(--f-serif);
+  font-style: italic;
+  font-size: 22px;
+  letter-spacing: normal;
+  text-transform: none;
+  color: var(--fg-60);
+  margin-bottom: 28px;
 }
-.pitch-host .deploy-card ul {
+.deploy-card.dark .tagline { color: rgba(247, 246, 243, 0.65); }
+.deploy-card ul {
   list-style: none;
   padding: 0;
   margin: 0;
 }
-.pitch-host .deploy-card li {
+.deploy-card li {
   padding: 12px 0;
   border-top: 1px solid var(--fg-08);
   font-size: 21px;
   color: var(--fg-70);
 }
-.pitch-host .deploy-card li:first-child { border-top: none; }
-
-.pitch-host .risk-panel {
-  margin-top: 28px;
-  background: var(--fg-05);
-  border-radius: 6px;
-  padding: 28px 36px;
+.deploy-card.dark li {
+  border-top-color: rgba(247, 246, 243, 0.15);
+  color: rgba(247, 246, 243, 0.80);
 }
-.pitch-host .risk-panel h4 {
+.deploy-card li:first-child { border-top: none; }
+.deploy-card .pick {
+  margin-top: auto;
+  padding-top: 18px;
+  font-family: var(--f-mono);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--green);
+}
+.deploy-card.dark .pick {
+  color: var(--bg);
+}
+
+.risk-panel {
+  margin-top: 32px;
+  background: transparent;
+  border-radius: 0;
+  padding: 6px 0 6px 28px;
+  border-left: 3px solid var(--fg);
+}
+.risk-panel h4 {
   font-family: var(--f-mono);
   font-size: 14px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--fg-60);
-  margin: 0 0 18px 0;
+  margin: 0 0 14px 0;
   font-weight: 500;
 }
-.pitch-host .risk-grid {
+.risk-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   column-gap: 56px;
@@ -892,14 +1074,14 @@
   padding: 0;
   margin: 0;
 }
-.pitch-host .risk-grid li {
+.risk-grid li {
   font-size: 20px;
   color: var(--fg);
   padding-left: 24px;
   position: relative;
   line-height: 1.4;
 }
-.pitch-host .risk-grid li::before {
+.risk-grid li::before {
   content: "—";
   position: absolute;
   left: 0;
@@ -907,44 +1089,51 @@
 }
 
 /* ===== Slide 10 — pilot ===== */
-.pitch-host .timeline {
+.timeline {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  margin-top: 48px;
+  margin-top: 72px;
 }
-.pitch-host .ts {
+.ts {
   padding: 24px 24px 28px;
   background: var(--card);
   border: 1px solid var(--fg-10);
   border-radius: 4px;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
 }
-.pitch-host .ts .n { font-family: var(--f-mono); font-size: 14px; color: var(--fg-50); letter-spacing: 0.1em; }
-.pitch-host .ts .dur {
+.ts .n { font-family: var(--f-mono); font-size: 14px; color: var(--fg-50); letter-spacing: 0.1em; }
+.ts .dur {
   font-family: var(--f-mono);
   font-size: 13px;
-  color: var(--green);
-  background: var(--green-soft);
+  font-weight: 500;
+  color: #fff;
+  background: var(--green);
   display: inline-block;
-  padding: 4px 10px;
+  padding: 5px 12px;
   border-radius: 3px;
   margin-top: 10px;
+  align-self: flex-start;
+  letter-spacing: 0.04em;
 }
-.pitch-host .ts .h {
+.ts .h {
   font-family: var(--f-serif);
   font-size: 30px;
   line-height: 1.1;
   margin-top: 14px;
+  min-height: 66px; /* lock title row across all 4 cards (fits 2 lines) */
 }
-.pitch-host .ts .d {
+.ts .d {
   font-size: 18px;
   color: var(--fg-60);
   margin-top: 10px;
   line-height: 1.4;
 }
 
-.pitch-host .price-block {
+.price-block {
   margin-top: 32px;
   background: var(--fg);
   color: var(--bg);
@@ -953,39 +1142,43 @@
   display: grid;
   grid-template-columns: 1.1fr 1fr;
   gap: 48px;
-  align-items: flex-start;
+  align-items: stretch;
 }
-.pitch-host .price-block .eyebrow-mini {
+.price-block > div {
+  display: flex;
+  flex-direction: column;
+}
+.price-block .eyebrow-mini {
   font-family: var(--f-mono);
   font-size: 13px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   color: rgba(247, 246, 243, 0.55);
 }
-.pitch-host .price-block .big {
+.price-block .big {
   font-family: var(--f-serif);
   font-size: 76px;
   line-height: 1.0;
   letter-spacing: -0.02em;
   margin-top: 10px;
 }
-.pitch-host .price-block .sub {
+.price-block .sub {
   font-size: 20px;
   color: rgba(247, 246, 243, 0.7);
   margin-top: 14px;
   max-width: 480px;
   line-height: 1.4;
 }
-.pitch-host .price-block ul { list-style: none; padding: 0; margin: 0; }
-.pitch-host .price-block li {
+.price-block ul { list-style: none; padding: 0; margin: 0; }
+.price-block li {
   padding: 10px 0;
   border-top: 1px solid rgba(247, 246, 243, 0.15);
   font-size: 19px;
   color: rgba(247, 246, 243, 0.85);
   line-height: 1.4;
 }
-.pitch-host .price-block li:first-child { border-top: none; }
-.pitch-host .price-block .listhead {
+.price-block li:first-child { border-top: none; }
+.price-block .listhead {
   font-family: var(--f-mono);
   font-size: 13px;
   letter-spacing: 0.12em;
@@ -993,38 +1186,63 @@
   color: rgba(247, 246, 243, 0.55);
   margin-bottom: 8px;
 }
-.pitch-host .quote-pill {
-  margin-top: 24px;
+.quote-pill {
+  margin-top: auto;
+  padding-top: 22px;
   font-family: var(--f-serif);
   font-style: italic;
-  color: var(--fg-60);
-  font-size: 24px;
+  font-size: 22px;
+  line-height: 1.4;
+  color: rgba(247, 246, 243, 0.7);
 }
 
-/* ===== Slide 11 — roadmap stair ===== */
-.pitch-host .stair {
+/* ===== Slide 11 — roadmap stair =====
+   Cards are all the SAME height (uniform 260px). The "stair up" effect
+   comes from a progressive margin-bottom that lifts each subsequent
+   card off the baseline. Distant steps fade with opacity to suggest
+   they're further away in time. */
+.stair {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 20px;
-  margin-top: 56px;
+  gap: 28px;
+  margin-top: 88px;
   align-items: end;
 }
-.pitch-host .step {
+.step {
+  position: relative;
   border: 1px solid var(--fg-10);
   border-radius: 4px;
   padding: 28px 28px 32px;
   background: var(--card);
-  min-height: 200px;
+  min-height: 260px;
 }
-.pitch-host .step.s1 { min-height: 260px; background: var(--green-soft); border-color: var(--green); }
-.pitch-host .step.s2 { min-height: 320px; }
-.pitch-host .step.s3 { min-height: 380px; }
-.pitch-host .step.s4 { min-height: 440px; }
-.pitch-host .step .n { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--fg-50); }
-.pitch-host .step.s1 .n { color: var(--green); }
-.pitch-host .step .h { font-family: var(--f-serif); font-size: 36px; line-height: 1.05; margin-top: 14px; }
-.pitch-host .step .d { font-size: 19px; color: var(--fg-60); margin-top: 14px; line-height: 1.45; }
-.pitch-host .step .now {
+.step.s1 {
+  background: var(--green-soft);
+  border-color: var(--green);
+}
+.step.s2 { margin-bottom: 36px; opacity: 0.92; }
+.step.s3 { margin-bottom: 72px; opacity: 0.78; }
+.step.s4 { margin-bottom: 108px; opacity: 0.6; }
+
+/* Thin connector arrow on the right edge of each card (except last),
+   sitting in the gutter — turns the row into a visible "route". */
+.step::after {
+  content: "→";
+  position: absolute;
+  right: -22px;
+  top: 38px;
+  font-family: var(--f-sans);
+  font-size: 24px;
+  color: var(--fg-50);
+  z-index: 2;
+}
+.step.s4::after { display: none; }
+
+.step .n { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--fg-50); }
+.step.s1 .n { color: var(--green); }
+.step .h { font-family: var(--f-serif); font-size: 36px; line-height: 1.05; margin-top: 14px; }
+.step .d { font-size: 19px; color: var(--fg-60); margin-top: 14px; line-height: 1.45; }
+.step .now {
   display: inline-block;
   margin-top: 16px;
   font-family: var(--f-mono);
@@ -1038,13 +1256,13 @@
 }
 
 /* ===== Slide 12 — next steps ===== */
-.pitch-host .nsteps {
+.nsteps {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 16px;
   margin-top: 48px;
 }
-.pitch-host .ns {
+.ns {
   padding: 24px 22px;
   background: var(--card);
   border: 1px solid var(--fg-10);
@@ -1053,11 +1271,11 @@
   display: flex;
   flex-direction: column;
 }
-.pitch-host .ns.last { background: var(--fg); color: var(--bg); border-color: transparent; }
-.pitch-host .ns .n { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--fg-50); }
-.pitch-host .ns.last .n { color: rgba(247, 246, 243, 0.5); }
-.pitch-host .ns .h { font-family: var(--f-serif); font-size: 26px; line-height: 1.1; margin-top: 14px; flex: 1; }
-.pitch-host .ns .who {
+.ns.last { background: var(--fg); color: var(--bg); border-color: transparent; }
+.ns .n { font-family: var(--f-mono); font-size: 14px; letter-spacing: 0.12em; color: var(--fg-50); }
+.ns.last .n { color: rgba(247, 246, 243, 0.5); }
+.ns .h { font-family: var(--f-serif); font-size: 26px; line-height: 1.1; margin-top: 14px; flex: 1; }
+.ns .who {
   font-family: var(--f-mono);
   font-size: 12px;
   letter-spacing: 0.08em;
@@ -1067,9 +1285,9 @@
   padding-top: 12px;
   border-top: 1px solid var(--fg-10);
 }
-.pitch-host .ns.last .who { color: rgba(247, 246, 243, 0.5); border-top-color: rgba(247, 246, 243, 0.15); }
+.ns.last .who { color: rgba(247, 246, 243, 0.5); border-top-color: rgba(247, 246, 243, 0.15); }
 
-.pitch-host .contact-block {
+.contact-block {
   margin-top: 32px;
   padding: 28px 36px;
   background: var(--fg-05);
@@ -1079,7 +1297,7 @@
   gap: 32px;
   align-items: center;
 }
-.pitch-host .contact-block .label {
+.contact-block .label {
   font-family: var(--f-mono);
   font-size: 12px;
   letter-spacing: 0.1em;
@@ -1087,11 +1305,11 @@
   color: var(--fg-50);
   margin-bottom: 6px;
 }
-.pitch-host .contact-block .val {
+.contact-block .val {
   font-size: 20px;
   color: var(--fg);
 }
-.pitch-host .contact-block .brand .val { font-family: var(--f-serif); font-size: 28px; }
+.contact-block .brand .val { font-family: var(--f-serif); font-size: 28px; }
 
 /* Eyebrow with section number, used everywhere */
-.pitch-host .sec-eyebrow .n { color: var(--fg); }
+.sec-eyebrow .n { color: var(--fg); }
