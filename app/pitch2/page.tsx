@@ -28,11 +28,11 @@ const DECK_HTML = `
     <div class="title-metrics">
       <div>
         <div class="m-label">Supplier coverage</div>
-        <div class="m-val">×3<span style="color:var(--muted);">–</span>4</div>
+        <div class="m-val">×3 <span style="color:var(--muted);">–</span> 4</div>
       </div>
       <div>
         <div class="m-label">Procedure speed</div>
-        <div class="m-val">×5<span style="color:var(--muted);">–</span>10</div>
+        <div class="m-val">×5 <span style="color:var(--muted);">–</span> 10</div>
       </div>
       <div>
         <div class="m-label">Team productivity</div>
