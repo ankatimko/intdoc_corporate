@@ -11,7 +11,12 @@
  * roots. The CSS only loads on /pitch2, so class names can't leak.
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500&display=swap');
+/* Inter Tight is loaded via next/font in app/pitch2/layout.tsx — that
+   exposes it as the CSS variable --font-inter-tight on the wrapping div,
+   so the deck inherits the self-hosted, preloaded font in prod and dev.
+   Previously we used a Google Fonts @import here, which caused a brief
+   FOUT on cold Vercel loads and made some slides overflow at first
+   paint (fallback metrics differ from Inter Tight). */
 
 :root {
   --bg: #F5F4EF;
@@ -41,7 +46,7 @@ html, body {
   margin: 0;
   background: #000;
   color: var(--ink);
-  font-family: "Inter Tight", "Söhne", "Neue Haas Grotesk", system-ui, sans-serif;
+  font-family: var(--font-inter-tight), "Inter Tight", "Söhne", "Neue Haas Grotesk", system-ui, sans-serif;
   font-weight: 400;
 }
 
@@ -58,7 +63,7 @@ deck-stage:not(:defined) { visibility: hidden; }
 section {
   background: var(--bg);
   color: var(--ink);
-  font-family: "Inter Tight", "Söhne", "Neue Haas Grotesk", system-ui, sans-serif;
+  font-family: var(--font-inter-tight), "Inter Tight", "Söhne", "Neue Haas Grotesk", system-ui, sans-serif;
   padding: var(--pad-y) var(--pad-x);
   box-sizing: border-box;
   display: grid;
@@ -451,7 +456,7 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
   position: relative;
   display: flex;
   flex-direction: column;
-  font-family: "Inter Tight", "Söhne", "Neue Haas Grotesk", system-ui, sans-serif;
+  font-family: var(--font-inter-tight), "Inter Tight", "Söhne", "Neue Haas Grotesk", system-ui, sans-serif;
   color: var(--ink);
 }
 
