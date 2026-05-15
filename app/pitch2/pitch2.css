@@ -33,7 +33,7 @@
   --t-title: 60px;
   --t-hero: 140px;
 
-  --pad-y: 72px;
+  --pad-y: 56px;
   --pad-x: 96px;
 }
 
@@ -62,8 +62,11 @@ section {
   padding: var(--pad-y) var(--pad-x);
   box-sizing: border-box;
   display: grid;
-  grid-template-rows: auto 1fr auto;
-  row-gap: 40px;
+  /* minmax(0, 1fr) caps the middle row so dense content can't push the
+     foot off the 1080px canvas — overflow:hidden + min-height:0 on inner
+     containers below keeps the clip strict. */
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  row-gap: 28px;
   overflow: hidden;
 }
 
@@ -84,7 +87,7 @@ section {
   justify-content: space-between;
   align-items: baseline;
   color: var(--footer);
-  font-size: var(--t-meta);
+  font-size: 16px;
   font-weight: 500;
   letter-spacing: .08em;
 }
@@ -146,7 +149,7 @@ em { font-style: italic; }
 hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
 
 /* Slide 1 — title */
-.s-title { display: grid; grid-template-rows: auto 1fr auto; row-gap: 0; }
+.s-title { display: grid; grid-template-rows: auto minmax(0, 1fr) auto; row-gap: 0; }
 .brand {
   display: flex;
   align-items: center;
@@ -360,16 +363,16 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
 .ntable { width: 100%; border-collapse: collapse; }
 .ntable th, .ntable td {
   text-align: left;
-  padding: 22px 0;
+  padding: 18px 0;
   border-bottom: 1px solid var(--divider);
-  font-size: 24px;
+  font-size: 23px;
   color: var(--ink);
   font-weight: 400;
   vertical-align: top;
 }
 .ntable th {
   color: var(--meta);
-  font-size: var(--t-meta);
+  font-size: 22px;
   font-weight: 500;
   letter-spacing: .08em;
   padding-top: 0;
@@ -378,44 +381,44 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
 .ntable td.k { color: var(--body); }
 .ntable td.fut { font-weight: 500; color: var(--ink); }
 .ntable .accent-mk { color: var(--accent); }
-.callout { margin-top: 8px; padding: 28px 0 0; border-top: 1px solid var(--divider); }
+.callout { margin-top: 6px; padding: 22px 0 0; border-top: 1px solid var(--divider); }
 .callout h5 {
-  font-size: 26px;
+  font-size: 24px;
   font-weight: 500;
   color: var(--ink);
-  margin: 0 0 10px 0;
+  margin: 0 0 8px 0;
   letter-spacing: -0.005em;
 }
 .callout p {
-  font-size: 24px;
+  font-size: 22px;
   color: var(--body);
   max-width: 1300px;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 /* Slide 6 — how it works */
 .s6 {
   display: grid;
   grid-template-columns: 1fr 1.15fr 1.15fr;
-  gap: 48px;
+  gap: 40px;
 }
 .s6 .steps { display: flex; flex-direction: column; }
 .s6 .steps .it {
-  padding: 22px 0;
+  padding: 16px 0;
   border-top: 1px solid var(--divider);
   display: grid;
-  grid-template-columns: 46px 1fr;
-  gap: 18px;
+  grid-template-columns: 44px 1fr;
+  gap: 16px;
 }
 .s6 .steps .it:last-child { border-bottom: 1px solid var(--divider); }
 .s6 .steps .it .nn {
   color: var(--meta);
-  font-size: var(--t-meta);
+  font-size: 22px;
   font-weight: 500;
   letter-spacing: .08em;
-  padding-top: 6px;
+  padding-top: 4px;
 }
-.s6 .steps .it .ttl { font-size: 24px; font-weight: 500; color: var(--ink); }
+.s6 .steps .it .ttl { font-size: 22px; font-weight: 500; color: var(--ink); }
 .s6 .steps .it.live .ttl::after {
   content: "";
   display: inline-block;
@@ -426,10 +429,10 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
   vertical-align: middle;
 }
 .s6 .steps .it .dsc {
-  font-size: 24px;
+  font-size: 20px;
   color: var(--body);
-  margin-top: 6px;
-  line-height: 1.45;
+  margin-top: 5px;
+  line-height: 1.42;
 }
 
 /* ===== Mockup screens — /pitch-style app frame, /pitch2 palette =====
@@ -887,7 +890,7 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
 .esg {
   display: grid;
   grid-template-rows: auto auto auto auto;
-  row-gap: 36px;
+  row-gap: 24px;
 }
 .esg-hero {
   padding: 32px 0;
@@ -985,34 +988,35 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
 .dcard {
   display: flex;
   flex-direction: column;
-  gap: 18px;
+  gap: 14px;
   border-top: 1px solid var(--ink);
-  padding-top: 28px;
+  padding-top: 24px;
 }
 .dcard .tag {
-  font-size: var(--t-meta);
+  font-size: 22px;
   color: var(--meta);
   letter-spacing: .08em;
   font-weight: 500;
 }
 .dcard .nm {
-  font-size: 36px;
+  font-size: 32px;
   font-weight: 500;
   color: var(--ink);
   letter-spacing: -0.01em;
+  line-height: 1.18;
 }
-.dcard .tl { font-size: 24px; color: var(--muted); font-style: italic; }
-.dcard ul { margin: 8px 0 0; padding: 0; list-style: none; }
+.dcard .tl { font-size: 22px; color: var(--muted); font-style: italic; }
+.dcard ul { margin: 6px 0 0; padding: 0; list-style: none; }
 .dcard ul li {
-  font-size: 24px;
+  font-size: 22px;
   color: var(--body);
-  padding: 10px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--divider);
-  line-height: 1.4;
+  line-height: 1.38;
 }
 .dcard .mk {
-  margin-top: 14px;
-  font-size: var(--t-meta);
+  margin-top: 12px;
+  font-size: 22px;
   font-weight: 500;
   letter-spacing: .08em;
   color: var(--ink);
@@ -1021,12 +1025,12 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
 .risk {
   display: grid;
   grid-template-columns: auto 1fr;
-  gap: 64px;
-  padding-top: 32px;
+  gap: 56px;
+  padding-top: 24px;
   border-top: 1px solid var(--divider);
 }
 .risk h5 {
-  font-size: var(--t-meta);
+  font-size: 22px;
   color: var(--meta);
   font-weight: 500;
   letter-spacing: .08em;
@@ -1037,13 +1041,13 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
   list-style: none;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px 56px;
+  gap: 6px 48px;
 }
 .risk ul li {
-  font-size: 24px;
+  font-size: 22px;
   color: var(--body);
-  padding: 8px 0;
-  line-height: 1.4;
+  padding: 6px 0;
+  line-height: 1.38;
 }
 .risk ul li::before { content: "— "; color: var(--muted); }
 
@@ -1056,82 +1060,77 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
   border-bottom: 1px solid var(--divider);
 }
 .tl .stage {
-  padding: 32px 32px;
+  padding: 24px 28px;
   border-right: 1px solid var(--divider);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
 }
 .tl .stage:last-child { border-right: 0; }
 .tl .stage .n {
-  font-size: var(--t-meta);
+  font-size: 22px;
   color: var(--meta);
   font-weight: 500;
   letter-spacing: .08em;
 }
-.tl .stage .dur {
-  font-size: 22px;
-  color: var(--ink);
-  font-weight: 500;
-  letter-spacing: -0.01em;
-}
 .tl .stage .nm {
-  font-size: 26px;
+  font-size: 24px;
   color: var(--ink);
   font-weight: 500;
   letter-spacing: -0.01em;
   line-height: 1.18;
 }
 .tl .stage .ds {
-  font-size: 24px;
+  font-size: 20px;
   color: var(--body);
-  line-height: 1.5;
+  line-height: 1.42;
 }
-.tl .stage.final .dur { color: var(--accent); }
+.tl .stage.final .nm { color: var(--accent); }
 .price-block {
   display: grid;
   grid-template-columns: 1.3fr 1fr;
-  gap: 64px;
-  padding-top: 32px;
+  gap: 56px;
+  padding-top: 24px;
   border-top: 1px solid var(--ink);
 }
 .price-block .lbl {
-  font-size: var(--t-meta);
+  font-size: 22px;
   color: var(--meta);
   letter-spacing: .08em;
   font-weight: 500;
 }
 .price-block .big {
-  font-size: 64px;
+  font-size: 52px;
   font-weight: 500;
   color: var(--ink);
   letter-spacing: -0.03em;
   line-height: 1;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 .price-block .pdesc {
-  font-size: 24px;
+  font-size: 22px;
   color: var(--body);
-  line-height: 1.5;
-  margin-top: 18px;
+  line-height: 1.42;
+  margin-top: 14px;
   max-width: 600px;
 }
 .price-block blockquote {
-  margin: 24px 0 0;
-  padding: 18px 0 0;
+  margin: 16px 0 0;
+  padding: 14px 0 0;
   border-top: 1px solid var(--divider);
-  font-size: 24px;
+  font-size: 22px;
   font-style: italic;
   color: var(--muted);
   line-height: 1.42;
   max-width: 600px;
 }
-.price-block .incl ul { list-style: none; margin: 8px 0 0; padding: 0; }
+.price-block .incl ul { list-style: none; margin: 6px 0 0; padding: 0; }
 .price-block .incl ul li {
-  font-size: 24px;
+  font-size: 22px;
   color: var(--body);
-  padding: 11px 0;
+  padding: 9px 0;
   border-bottom: 1px solid var(--divider);
+  line-height: 1.38;
 }
 
 /* Slide 12 — roadmap 3x2 */
@@ -1201,9 +1200,22 @@ hr.div { border: 0; border-top: 1px solid var(--divider); margin: 0; }
   font-weight: 500;
 }
 
-/* utility */
-.stack { display: flex; flex-direction: column; }
+/* utility — middle row container; min-height:0 + overflow:hidden lets the
+   flex column shrink within the grid's minmax(0, 1fr) middle track so the
+   foot stays anchored to the canvas bottom even when content is dense. */
+.stack {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
 .gap-16 { gap: 16px; }
 .gap-24 { gap: 24px; }
 .gap-32 { gap: 32px; }
 .gap-48 { gap: 48px; }
+
+/* Section-specific layout grids also need min-height:0 so their inner
+   content stays inside the middle track. */
+.s6, .s7, .s8, .esg {
+  min-height: 0;
+}
